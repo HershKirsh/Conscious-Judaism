@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link id="fav" rel="icon" href="./client/assets/fav.png" type="image/gif" sizes="16x16">
+    <link id="fav" rel="icon" href="./client/assets/logo.png" type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="client/css/style.css" />
@@ -14,279 +14,67 @@
 
 <body>
     <header>
-        <div><img src="./client/assets/logo.jpg" alt="logo"></div>
+        <div><img src="./client/assets/logo.png" alt="logo"></div>
         <h1>Conscious Judaism</h1>
     </header>
+    <nav>
+        <ul>
+            <li><a href="#DT">Conscious Judaism Series</a></li>
+            <li><a href="#DME">Conscious Chassidus Series</a></li>
+            <li><a href="#CIN">Consciuos in Nature Series</a></li>
+        </ul>
+    </nav>
+    <div id="social-media">
+        <h5>Follow Conscious Judaism</h5>
+        <ul>
+            <li><a href="https://www.youtube.com/channel/UCzvwVzjz1E_q2vZljRUkfTg" id="yt-link" target="blank"><i class="fab fa-youtube"></i></a></li>
+            <li><a href="https://www.instagram.com/theconsciousjudaism/" id="ig-link" target="blank">
+                    <i class="fab fa-instagram"></i></a></li>
+        </ul>
+    </div>
     <div id="container">
-
-        <section class="series" id="dover-tzedek">
+        <section class="series" id="DT">
             <div class="subheader-wrapper">
-                <h2>Series: Conscious Judaism</h2>
-                <h4>Lectures on Sefer Dover Tzedek from Reb Tzodok HaCohen of Lublin</h4>
+                <h2>Conscious Judaism Series</h2>
+                <h4>Recordings on Sefer Dover Tzedek from Reb Tzodok HaCohen of Lublin</h4>
             </div>
-            <div class="recording">
+            <button class="minimize" title="Minimize" onclick="toggleMini(this, 0)"></button>
+            <!-- <div class="list-item">
                 <h3>EP 1: Introduction to Conscious Judaism</h3>
                 <div class="audio-wrapper">
                     <audio type="audio/mpeg"
                         src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
                         Your browser does not support the audio element.
                     </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
                     <div id="speed-wrapper">
                         <label for="a">Playback speed</label><br>
                         <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
                         <br>x<output name="x" for="a">1</output>
                     </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
+                    <a class="btn yt" href="https://www.youtube.com/watch?v=X-ueBcX8sp8"
+                        title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
                     <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
                         title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
                 </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
+            </div> -->
+
 
         </section>
-        <section class="series" id="degel">
+        <section class="series" id="DME">
             <div class="subheader-wrapper">
-                <h2>Series: Conscious Chassidus</h2>
-                <h4>Lectures on Sefer Degel Machaneh Ephraim</h4>
+                <h2>Conscious Chassidus Series</h2>
+                <h4>Recordings on Sefer Degel Machaneh Ephraim</h4>
             </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
+            <button class="minimize" title="Minimize" onclick="toggleMini(this, 1)"></button>
+
+        </section>
+
+        <section class="series" id="CIN">
+            <div class="subheader-wrapper">
+                <h2>Conscious In Nature</h2>
+                <h4>Insights conveyed while surrounded by nature</h4>
             </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
-            <div class="recording">
-                <h3>EP 1: Introduction to Conscious Judaism</h3>
-                <div class="audio-wrapper">
-                    <audio type="audio/mpeg"
-                        src="https://drive.google.com/uc?export=open&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK" controls>
-                        Your browser does not support the audio element.
-                    </audio>
-                    <a class="btn" href="http://docs.google.com/uc?export=download&id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK"
-                        title="Download" download>&#8681;</a>
-                    <div id="speed-wrapper">
-                        <label for="a">Playback speed</label><br>
-                        <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
-                        <br>x<output name="x" for="a">1</output>
-                    </div>
-                </div>
-            </div>
+            <button class="minimize" title="Minimize" onclick="toggleMini(this, 2)"></button>
 
         </section>
     </div>
