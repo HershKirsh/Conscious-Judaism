@@ -239,3 +239,13 @@ audio {
         min-width: 90%;
     }
 }
+
+@media screen and (max-width: 720px) {
+    section {
+       width : 98%;
+    }
+
+    .list-item {
+        min-width: 91%;
+    }
+}
