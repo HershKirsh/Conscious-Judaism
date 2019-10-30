@@ -1,8 +1,7 @@
 const htmlElements = {
     section: document.querySelectorAll('section'),
     audio: document.querySelectorAll('audio'),
-    output: document.querySelectorAll('output'),
-    list: document.querySelectorAll('.list')
+    output: document.querySelectorAll('output')
 };
 
 function toggleMini(miniBtn, num) {
@@ -196,12 +195,12 @@ const recordings = [
     },
 ];
 
+let listItemNum = 0;
 appendList(dtList = recordings.filter(item => item.series == 'dt'), 0);
 appendList(dtList = recordings.filter(item => item.series == 'dme'), 1);
 appendList(dtList = recordings.filter(item => item.series == 'cin'), 2);
-
 function appendList(list, num) {
-    list.forEach(item => {
+    list.forEach((item, i) => {
         const htmlListItem = document.createElement('div');
         htmlListItem.classList.add('list-item');
         const textNode = (`<h3>${item.title}</h3>
@@ -212,7 +211,7 @@ function appendList(list, num) {
             </audio>
             <div id="speed-wrapper">
                 <label for="a">Playback speed</label><br>
-                <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, 1)">
+                <input type="range" id="a" max="4" value="2" oninput="adjustSpeed(this, ${listItemNum})">
                 <br>x<output name="x" for="a">1</output>
             </div>
             <a class="btn yt" href="${item.ytLink}"
@@ -222,5 +221,11 @@ function appendList(list, num) {
         </div>`);
         htmlListItem.innerHTML = textNode;
         htmlElements.section[num].insertAdjacentElement('beforeend', htmlListItem);
+        listItemNum++;
     });
+}
+
+window.onload = function() {
+    htmlElements.audio = document.querySelectorAll('audio'),
+    htmlElements.output = document.querySelectorAll('output')
 }
