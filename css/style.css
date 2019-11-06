@@ -61,10 +61,12 @@ li a:hover {
     bottom: 0;
     z-index: 1;
     width: min-content;
+    pointer-events: none;
 }
 
 #social-media h5 {
     margin: 0;
+    pointer-events: none;
 }
 
 #social-media ul {
@@ -76,6 +78,7 @@ li a:hover {
 #social-media li {
     font-size: 30px;
     margin: 5px;
+    pointer-events: all;
 }
 
 #container {
@@ -166,6 +169,58 @@ h4 {
     padding: 10px;
     margin-top: 10px;
     height: 25px;
+    animation: slideIn .5s linear both;
+}
+
+@keyframes slideIn {
+    0% {transform: translateX(-115%)}
+    100% {transform: translateX(0)}
+}
+
+section .list-item:nth-of-type(1) {
+    animation-delay: .2s;
+}
+section .list-item:nth-of-type(2) {
+    animation-delay: .4s;
+}
+section .list-item:nth-of-type(3) {
+    animation-delay: .6s;
+}
+section .list-item:nth-of-type(4) {
+    animation-delay: .8s;
+}
+section .list-item:nth-of-type(5) {
+    animation-delay: 1s;
+}
+section .list-item:nth-of-type(6) {
+    animation-delay: 1.2s;
+}
+section .list-item:nth-of-type(7) {
+    animation-delay: 1.4s;
+}
+section .list-item:nth-of-type(8) {
+    animation-delay: 1.6s;
+}
+section .list-item:nth-of-type(9) {
+    animation-delay: 1.8s;
+}
+section .list-item:nth-of-type(10) {
+    animation-delay: 2s;
+}
+section .list-item:nth-of-type(11) {
+    animation-delay: 2.2s;
+}
+section .list-item:nth-of-type(12) {
+    animation-delay: 2.4s;
+}
+section .list-item:nth-of-type(13) {
+    animation-delay: 2.6s;
+}
+section .list-item:nth-of-type(14) {
+    animation-delay: 2.8s;
+}
+section .list-item:nth-of-type(15) {
+    animation-delay: 3s;
 }
 
 h3 {
