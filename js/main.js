@@ -1,8 +1,11 @@
+
+
+
 var htmlElements = {
     section: document.querySelectorAll('section'),
 };
 
-(function getRecordings() {
+function getRecordings() {
     var url = "https://conscious-j.herokuapp.com/recording/recordings";
     fetch(url, { method: 'get' })
         .then(res => {
@@ -11,16 +14,14 @@ var htmlElements = {
         .then(data => {
             prepareLists(data);
         })
-})();
+};
 
 
 const pageBuilder = {
     listItemNum: 0,
     appendList: function (list, num) {
-        list.forEach((item, i) => {
-            const htmlListItem = document.createElement('div');
-            htmlListItem.classList.add('list-item');
-            const textNode = (`<h3>${item.title}</h3>
+        list.forEach((item) => {
+            const innerString = `<h3>${item.title}</h3>
             <div class="audio-wrapper">
                 <audio type="audio/mpeg"
                     src="https://conscious-j.herokuapp.com/${item.audioLink}" controls>
@@ -33,13 +34,20 @@ const pageBuilder = {
                 </div>
                 <a class="btn yt" href="${item.ytLink}"
                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
-            </div>`);
-            htmlListItem.innerHTML = textNode;
-            htmlElements.section[num].insertAdjacentElement('beforeend', htmlListItem);
+            </div>`;
+            this.createHtml('div', 'list-item', '', innerString, htmlElements.section[num]);
             this.listItemNum++;
         });
         htmlElements.audio = document.querySelectorAll('audio');
         htmlElements.output = document.querySelectorAll('output');
+    },
+    createHtml: function (tagName, className, idName, innerContent, insertTo) {
+        const htmlListItem = document.createElement(tagName);
+        htmlListItem.classList.add(className);
+        htmlListItem.id = idName;
+        const textNode = (innerContent);
+        htmlListItem.innerHTML = textNode;
+        insertTo.insertAdjacentElement('beforeend', htmlListItem);
     }
 }
 
@@ -79,3 +87,114 @@ function adjustSpeed(range, num) {
 // };
 
 //<a class="btn" href="https://conscious-j.herokuapp.com/${item.audioLink}" title="Download" download>&#8681;</a>
+
+var audioList = [
+    {
+        title: "test1",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dt',
+        ytLink: "some-link"
+    },
+    {
+        title: "test2",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dme',
+        ytLink: "some-link"
+    },
+    {
+        title: "test3",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'cin',
+        ytLink: "some-link"
+    },
+    {
+        title: "test4",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dt',
+        ytLink: "some-link"
+    },
+    {
+        title: "test5",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dme',
+        ytLink: "some-link"
+    },
+    {
+        title: "test6",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'cin',
+        ytLink: "some-link"
+    },
+    {
+        title: "test7",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dt',
+        ytLink: "some-link"
+    },
+    {
+        title: "test8",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dme',
+        ytLink: "some-link"
+    },
+    {
+        title: "test9",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'cin',
+        ytLink: "some-link"
+    },
+    {
+        title: "test10",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dt',
+        ytLink: "some-link"
+    },
+    {
+        title: "test11",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dme',
+        ytLink: "some-link"
+    },
+    {
+        title: "test12",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'cin',
+        ytLink: "some-link"
+    },
+    {
+        title: "test13",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dt',
+        ytLink: "some-link"
+    },
+    {
+        title: "test14",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dme',
+        ytLink: "some-link"
+    },
+    {
+        title: "test15",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'cin',
+        ytLink: "some-link"
+    },
+    {
+        title: "test16",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dt',
+        ytLink: "some-link"
+    },
+    {
+        title: "test17",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'dme',
+        ytLink: "some-link"
+    },
+    {
+        title: "test18",
+        audioLink: 'https://drive.google.com/open?id=1-qPv7zv-gj-B75_GpzLdi8OMczyDu8uK',
+        series: 'cin',
+        ytLink: "some-link"
+    },
+];

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link id="fav" rel="icon" href="./client/assets/logo.png" type="image/gif" sizes="16x16">
+    <link id="fav" rel="icon" href="assets/logo.png" type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
@@ -14,52 +14,50 @@
 
 <body>
     <header>
-        <div><img src="./assets/logo.png" alt="logo"></div>
+        <div><img src="assets/logo.png" alt="logo"></div>
         <h1>Conscious Judaism</h1>
     </header>
     <nav>
-        <ul>
-            <li><a href="#DT">Conscious Judaism Series</a></li>
-            <li><a href="#DME">Conscious Chassidus Series</a></li>
-            <li><a href="#CIN">Consciuos in Nature Series</a></li>
+        <ul id="main-menu" class="all-pages">
+            <i id="menu-btn" class="fas fa-bars" tabindex="0"></i>
+            <li id="about"><i class="fas fa-info-circle">Learn More about Consciuos Judaism</i></li>
+            <li id="audio"><i class="fas fa-microphone">Listen to and Download Recordings</i></li>
+            <li id="video"><i class="fas fa-video">Watch Short Video Clips</i></li>
+            <li id="connect"><i class="fas fa-envelope-open-text">Connect with Us</i></li>
         </ul>
     </nav>
+    <!-- <ul id="in-page-links">
+        <li><a href="#DT">Conscious Judaism Series</a></li>
+        <li><a href="#DME">Conscious Chassidus Series</a></li>
+        <li><a href="#CIN">Consciuos in Nature Series</a></li>
+    </ul> -->
+
+    <div id="container" class="home">
+       <ul id="heros">
+           <li class="hero"><h3>Get In Touch With Who You Are</h3></li>
+           <li class="hero"><h3>Let Go of All of Misunderstood Ideas</h3></li>
+           <li class="hero"><h3>Allow Kindness to Interpet Your Reality</h3></li>
+           <li class="hero"><h3>Awaken!</h3></li>
+           <li class="hero"><h3>Be Who you Are Meant to Be</h3></li>
+           <li class="hero"><h3>Consciously Enjoy Consciousness</h3></li>
+       </ul>
+    </div>
+
     <div id="social-media">
         <h5>Follow Conscious Judaism</h5>
         <ul>
-            <li><a href="https://www.youtube.com/channel/UCzvwVzjz1E_q2vZljRUkfTg" id="yt-link" target="blank"><i class="fab fa-youtube"></i></a></li>
+            <li><a href="https://www.youtube.com/channel/UCzvwVzjz1E_q2vZljRUkfTg" id="yt-link" target="blank"><i
+                        class="fab fa-youtube"></i></a></li>
             <li><a href="https://www.instagram.com/theconsciousjudaism/" id="ig-link" target="blank">
                     <i class="fab fa-instagram"></i></a></li>
         </ul>
     </div>
-    <div id="container">
-        <section class="series" id="DT">
-            <div class="subheader-wrapper">
-                <h2>Conscious Judaism Series</h2>
-                <h4>Recordings on Sefer Dover Tzedek from Reb Tzodok HaCohen of Lublin</h4>
-            </div>
-            <button class="minimize" title="Minimize" onclick="toggleMini(this, 0)"></button>
-
-        </section>
-        <section class="series" id="DME">
-            <div class="subheader-wrapper">
-                <h2>Conscious Chassidus Series</h2>
-                <h4>Recordings on Sefer Degel Machaneh Ephraim</h4>
-            </div>
-            <button class="minimize" title="Minimize" onclick="toggleMini(this, 1)"></button>
-
-        </section>
-
-        <section class="series" id="CIN">
-            <div class="subheader-wrapper">
-                <h2>Conscious In Nature</h2>
-                <h4>Insights conveyed while surrounded by nature</h4>
-            </div>
-            <button class="minimize" title="Minimize" onclick="toggleMini(this, 2)"></button>
-
-        </section>
-    </div>
-    <script src="js/main.js"></script>
+    <footer>
+        <span>website design & creation by <a href="https://yitzchokkirsh.com" target="blank">HK Web</a></span>
+    </footer>
+    <script src="js/model.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/controller.js"></script>
 </body>
 
 </html>
