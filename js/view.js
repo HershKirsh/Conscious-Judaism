@@ -70,55 +70,38 @@ function adjustSpeed(range, num) {
 
 
 
-var nowPlaying = {
-    number: 0,
-    createElement: function (num) {
-        this.number = num;
-        let innerString = `<h3>${audioListItems.recordingList[this.number].title}</h3>
-        <div class="audio-wrapper">
-        <div id="speed-wrapper">
-            <label for="a">Playback speed</label><br>
-            <input type="range" id="a" max="2.5" min="0.5" step="0.25" value="1" oninput="adjustSpeed(this, ${this.number})">
-            <br>x<output name="x" for="a">1</output>
-        </div>
-        <button id="pause-btn" title="pause" onclick="nowPlaying.pausePlay(this, ${this.number})"><i class="far fa-pause-circle"></i></button>
-        <input type="range" id="a" max="1" min="0" step="0.1" value="${htmlElements.audio[this.number].volume}" oninput="nowPlaying.volumeChange(this, ${this.number})">
-        <a class="btn yt" href="${audioListItems.recordingList[this.number].ytLink}"
-            title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
-        </div>
-        </div>`;
-        createHtml('div', '', 'nowPlaying', innerString, htmlElements.container);
-    },
-    playing: true,
-    volumeChange: (range) => htmlElements.audio[this.number].volume = range.value,
-    pausePlay: function (btn, num) {
-        if (this.playing) {
-            btn.innerHTML = '&#x25B6;';
-            btn.title = 'play';
-            htmlElements.audio[num].pause();
-            this.playing = false
-        } else {
-            btn.innerHTML = '<i class="far fa-pause-circle"></i>';
-            btn.title = 'pause';
-            htmlElements.audio[num].play();
-            this.playing = true;
-        }
-    }
-};
-var heros = document.querySelectorAll('.hero');
-let scale = 100;
-var slide = 0;
-window.addEventListener('wheel', function (e) {
-    e.preventDefault;
-    console.log(e.wheelDelta);
-    e.wheelDelta <= 0 ? scale -= 5 : scale += 5;
-    if (scale >= 100) {
-        scale = 100;
-    } else if (scale <= -20) {
-        scale = 200;
-        heros[slide].style.transform = `translateY(${scale}%)`;
-        slide++;
-        scale = 100;
-    };
-    heros[slide].style.transform = `translateY(${scale}%)`;
-});
+// var nowPlaying = {
+//     number: 0,
+//     createElement: function (num) {
+//         this.number = num;
+//         let innerString = `<h3>${audioListItems.recordingList[this.number].title}</h3>
+//         <div class="audio-wrapper">
+//         <div id="speed-wrapper">
+//             <label for="a">Playback speed</label><br>
+//             <input type="range" id="a" max="2.5" min="0.5" step="0.25" value="1" oninput="adjustSpeed(this, ${this.number})">
+//             <br>x<output name="x" for="a">1</output>
+//         </div>
+//         <button id="pause-btn" title="pause" onclick="nowPlaying.pausePlay(this, ${this.number})"><i class="far fa-pause-circle"></i></button>
+//         <input type="range" id="a" max="1" min="0" step="0.1" value="${htmlElements.audio[this.number].volume}" oninput="nowPlaying.volumeChange(this, ${this.number})">
+//         <a class="btn yt" href="${audioListItems.recordingList[this.number].ytLink}"
+//             title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
+//         </div>
+//         </div>`;
+//         createHtml('div', '', 'nowPlaying', innerString, htmlElements.container);
+//     },
+//     playing: true,
+//     volumeChange: (range) => htmlElements.audio[this.number].volume = range.value,
+//     pausePlay: function (btn, num) {
+//         if (this.playing) {
+//             btn.innerHTML = '&#x25B6;';
+//             btn.title = 'play';
+//             htmlElements.audio[num].pause();
+//             this.playing = false
+//         } else {
+//             btn.innerHTML = '<i class="far fa-pause-circle"></i>';
+//             btn.title = 'pause';
+//             htmlElements.audio[num].play();
+//             this.playing = true;
+//         }
+//     }
+// };
