@@ -1,5 +1,5 @@
 //var currentPage = /[^#]*$/.exec(window.location.href)[0];
-var currentPage = "home"
+var currentPage = "audio"
 var pageArray = ["home", "about", "audio", "video", "contact"];
 var renderPage = [
     function renderHome() {
