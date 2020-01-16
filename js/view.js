@@ -74,22 +74,21 @@ function adjustSpeed(range, num) {
 
 const nowPlaying = {
     number: 0,
-    playing: false,
+    open: false,
     setPlay: function (num) {
-        if (this.playing) {
-            this.stop(this.number);
+        if (num !== this.number) {
+            if (this.open) {
+                this.stop(this.number);
+            }
+            this.number = num;
+            this.open = true;
+            htmlElements.listItem[num].classList.add('now-playing');
         }
-        this.number = num;
-        this.playing = true;
-        htmlElements.listItem[num].classList.add('now-playing');
     },
     stop: function (num) {
-        htmlElements.listItem[num].classList.remove('now-playing');
         htmlElements.audio[num].pause();
-        this.playing = false;
-    },
-    pause: function () {
-        this.playing = false;
+        htmlElements.listItem[num].classList.remove('now-playing');
+        this.open = false;
     }
 };
 
