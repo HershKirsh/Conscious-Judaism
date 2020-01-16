@@ -22,8 +22,8 @@ const audioSections = {
             let innerString = `<div class="subheader-wrapper">
     <h2>${this.headers[i]}</h2>
     <h4>${this.descriptions[i]}</h4>
-</div>
-<button class="minimize" title="Minimize" onclick="toggleMini(this, ${i})"></button>`;
+    </div>
+    <button class="minimize" title="Minimize" onclick="toggleMini(this, ${i})"></button>`;
             createHtml('section', 'series', item, innerString, htmlElements.container);
         });
         htmlElements.section = document.querySelectorAll('section');
@@ -38,7 +38,7 @@ var audioListItems = {
         list.forEach((item) => {
             const innerString = `<h3>${item.number + 1}. ${item.title}</h3><span onclick="nowPlaying.stop(${this.listItemNum})" title="stop playing">X</span>
             <div class="audio-wrapper">
-                <audio onplay="nowPlaying.setPlay(${this.listItemNum})" onpause="nowPlaying.pause()" type="audio/mpeg"
+                <audio onplay="nowPlaying.setPlay(${this.listItemNum})" type="audio/mpeg"
                     src="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" controls controlsList="nodownload">
                     Your browser does not support the audio element.
                 </audio>
@@ -70,18 +70,16 @@ function adjustSpeed(range, num) {
     htmlElements.output[num].innerHTML = range.value;
 };
 
-
-
 const nowPlaying = {
     number: 0,
     open: false,
     setPlay: function (num) {
-        if (num !== this.number) {
-            if (this.open) {
-                this.stop(this.number);
-            }
-            this.number = num;
+        if (num === this.number && this.open === false) {
+            htmlElements.listItem[num].classList.add('now-playing');
             this.open = true;
+        } else if (num !== this.number) {
+            this.open ? this.stop(this.number) : this.open = true;
+            this.number = num;
             htmlElements.listItem[num].classList.add('now-playing');
         }
     },
