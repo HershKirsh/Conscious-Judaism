@@ -7,7 +7,6 @@ const createHtml = (tagName, className, idName, innerContent, insertTo, attribut
     const htmlListItem = document.createElement(tagName);
     if (className) { htmlListItem.classList.add(className) };
     if (idName) { htmlListItem.id = idName };
-    console.log(attribute)
     if (attribute) { htmlListItem.setAttribute(attribute.name, attribute.value) }
     const textNode = (innerContent);
     htmlListItem.innerHTML = textNode;
@@ -39,7 +38,7 @@ var audioListItems = {
         list.forEach((item) => {
             const innerString = `<h3>${item.number + 1}. ${item.title}</h3><span onclick="nowPlaying.stop(${this.listItemNum})" title="stop playing">X</span>
             <div class="audio-wrapper">
-                <audio onplay="nowPlaying.setPlay(${this.listItemNum})" type="audio/mpeg"
+                <audio onplay="nowPlaying.setPlay(${this.listItemNum})" onpause="nowPlaying.pause()" type="audio/mpeg"
                     src="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" controls controlsList="nodownload">
                     Your browser does not support the audio element.
                 </audio>
@@ -87,6 +86,10 @@ const nowPlaying = {
     stop: function (num) {
         htmlElements.listItem[num].classList.remove('now-playing');
         htmlElements.audio[num].pause();
+        this.playing = false;
+    },
+    pause: function () {
+        this.playing = false;
     }
 };
 
