@@ -29,6 +29,13 @@ header {
 
 header h1 {
     margin-top: 0;
+    opacity: .8;
+}
+
+header #logo img {
+    width: 125px;
+    padding: 10px;
+    opacity: .7;
 }
 
 /* header #current-page {
