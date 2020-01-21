@@ -36,7 +36,7 @@ var audioListItems = {
     listItemNum: 0,
     appendList: function (list, num) {
         list.forEach((item) => {
-            const innerString = `<h3>${item.number + 1}. ${item.title}</h3><span onclick="nowPlaying.stop(${this.listItemNum})" title="stop playing">X</span>
+            const innerString = `<h3>${item.number + 1}. ${item.title}</h3><span onclick="nowPlaying.stop(${this.listItemNum})" title="stop playing">&#10006;</span>
             <div class="audio-wrapper">
                 <audio onplay="nowPlaying.setPlay(${this.listItemNum})" type="audio/mpeg"
                     src="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" controls controlsList="nodownload">

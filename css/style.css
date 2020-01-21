@@ -382,7 +382,8 @@ h4 {
     background-color: #697db882;
     padding: 10px;
     margin-top: 10px;
-    height: 25px;
+    height: 40px;
+    box-sizing: border-box;
     box-shadow: 1px 1px 2px #ffffff3b;
     animation: slideIn .5s linear both;
     transition: background .3s;
@@ -402,7 +403,7 @@ h4 {
 }
 
 .list-item h3 {
-    max-width: 90%;
+    max-width: 95%;
     margin: auto;
     margin-bottom: 10px;
     text-align: left;
