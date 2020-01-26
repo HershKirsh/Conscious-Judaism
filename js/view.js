@@ -7,7 +7,10 @@ const createHtml = (tagName, className, idName, innerContent, insertTo, attribut
     const htmlListItem = document.createElement(tagName);
     if (className) { htmlListItem.classList.add(className) };
     if (idName) { htmlListItem.id = idName };
+<<<<<<< HEAD
     console.log(attribute)
+=======
+>>>>>>> master
     if (attribute) { htmlListItem.setAttribute(attribute.name, attribute.value) }
     const textNode = (innerContent);
     htmlListItem.innerHTML = textNode;
@@ -23,8 +26,8 @@ const audioSections = {
             let innerString = `<div class="subheader-wrapper">
     <h2>${this.headers[i]}</h2>
     <h4>${this.descriptions[i]}</h4>
-</div>
-<button class="minimize" title="Minimize" onclick="toggleMini(this, ${i})"></button>`;
+    </div>
+    <button class="minimize" title="Minimize" onclick="toggleMini(this, ${i})"></button>`;
             createHtml('section', 'series', item, innerString, htmlElements.container);
         });
         htmlElements.section = document.querySelectorAll('section');
@@ -37,7 +40,11 @@ var audioListItems = {
     listItemNum: 0,
     appendList: function (list, num) {
         list.forEach((item) => {
+<<<<<<< HEAD
             const innerString = `<h3>${item.number + 1}. ${item.title}</h3><span onclick="nowPlaying.stop(${this.listItemNum})" title="stop playing">X</span>
+=======
+            const innerString = `<h3>${item.number + 1}. ${item.title}</h3><span onclick="nowPlaying.stop(${this.listItemNum})" title="stop playing">&#10006;</span>
+>>>>>>> master
             <div class="audio-wrapper">
                 <audio onplay="nowPlaying.setPlay(${this.listItemNum})" type="audio/mpeg"
                     src="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" controls controlsList="nodownload">
@@ -71,6 +78,7 @@ function adjustSpeed(range, num) {
     htmlElements.output[num].innerHTML = range.value;
 };
 
+<<<<<<< HEAD
 
 
 const nowPlaying = {
@@ -87,6 +95,25 @@ const nowPlaying = {
     stop: function (num) {
         htmlElements.listItem[num].classList.remove('now-playing');
         htmlElements.audio[num].pause();
+=======
+const nowPlaying = {
+    number: 0,
+    open: false,
+    setPlay: function (num) {
+        if (num === this.number && this.open === false) {
+            htmlElements.listItem[num].classList.add('now-playing');
+            this.open = true;
+        } else if (num !== this.number) {
+            this.open ? this.stop(this.number) : this.open = true;
+            this.number = num;
+            htmlElements.listItem[num].classList.add('now-playing');
+        }
+    },
+    stop: function (num) {
+        htmlElements.audio[num].pause();
+        htmlElements.listItem[num].classList.remove('now-playing');
+        this.open = false;
+>>>>>>> master
     }
 };
 
