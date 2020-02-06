@@ -1,40 +1,70 @@
 //var currentPage = /[^#]*$/.exec(window.location.href)[0];
-var currentPage = "audio"
-var pageArray = ["home", "about", "audio", "video", "contact"];
+const currentPage = "audio"
+const pageArray = ["home", "about", "audio", "video", "connect"];
+let pageNum = pageArray.indexOf(currentPage);
+if (pageNum === -1) pageNum = 0;
+
+function setPage(page) {
+    if (page) pageNum = pageArray.indexOf(page);
+    htmlElements.container.innerHTML = "";
+    getPageData[pageNum]();
+}
+
+const getPageData = [
+    function home() {
+        console.log("rendered Home");
+    },
+    function about() {
+        console.log("rendered About");
+    },
+    function audio() {
+        let url = "https://conscious-j.herokuapp.com/recording/";
+        getData(url, "GET")
+    },
+    function video() {
+        console.log("rendered Video");
+    },
+    function connect() {
+        console.log("rendered Connect");
+    }
+];
+
+
 var renderPage = [
     function renderHome() {
         console.log("rendered Home");
     },
     function renderAbout() {
+        console.log("rendered About");
     },
-    function renderAudio() {
-        let url = "https://conscious-j.herokuapp.com/recording/";
-        getData(url, "get");
+    function renderAudio(data) {
+        appendHtml(data);
     },
     function renderVideo() {
         console.log("rendered Video");
     },
-    function renderContact() {
+    function renderConnect() {
         console.log("rendered Contact");
     }
 ];
 
-renderPage[pageArray.indexOf(currentPage)] ? renderPage[pageArray.indexOf(currentPage)]() : renderPage[0]();
 
-appendHtml = (data) => {
+
+const appendHtml = (data) => {
     audioSections.create(data)
+    playerElement.create();
 };
 
-handleData = (data) => {
+const handleData = (data) => {
     prepareLists(data);
 };
 
-appendLists = (list, num) => {
+const appendLists = (list, num) => {
     audioListItems.appendList(list, num);
 };
 
-function downloadRec(i) {
-    let path = audioListItems.recordingList[i].audioLink;
-    let url = "https://conscious-j.herokuapp.com/recording/download?" + path;
-    getData(url, "get");
-}
+// function downloadRec(i) {
+//     let path = audioListItems.recordingList[i].audioLink;
+//     let url = "https://conscious-j.herokuapp.com/recording/download?" + path;
+//     getData(url, "get");
+// }

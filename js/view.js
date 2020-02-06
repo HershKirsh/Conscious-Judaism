@@ -3,15 +3,26 @@ var htmlElements = {
     mainMenu: document.getElementById('main-menu')
 };
 
-const createHtml = (tagName, className, idName, innerContent, insertTo, attribute) => {
-    const htmlListItem = document.createElement(tagName);
-    if (className) { htmlListItem.classList.add(className) };
-    if (idName) { htmlListItem.id = idName };
-    if (attribute) { htmlListItem.setAttribute(attribute.name, attribute.value) }
-    const textNode = (innerContent);
-    htmlListItem.innerHTML = textNode;
-    insertTo.insertAdjacentElement('beforeend', htmlListItem);
-};
+class HtmlElement {
+    constructor(_tag, _class, _id, _innerContent, _insertTo, _attributes) {
+        this.tag = _tag;
+        this.class = _class;
+        this.id = _id;
+        this.innerContent = _innerContent;
+        this.insertTo = _insertTo;
+        this.attributes = _attributes
+    };
+    createElement() {
+        const newElement = document.createElement(this.tag);
+        if (this.class) { newElement.classList.add(this.class) };
+        if (this.id) { newElement.id = this.id };
+        if (this.attributes) { this.attributes.forEach(attribute => newElement.setAttribute(attribute.name, attribute.value)) }
+        const textNode = (this.innerContent);
+        newElement.innerHTML = textNode;
+        this.insertTo.insertAdjacentElement('beforeend', newElement);
+    };
+}
+
 const audioSections = {
     IDs: ['DT', 'DME', 'CIN', 'HEB'],
     headers: ['Conscious Judaism Series', 'Conscious Chassidus Series', 'Conscious In Nature', 'נשמת ישראל'],
@@ -20,73 +31,110 @@ const audioSections = {
     create: function (data) {
         this.IDs.forEach((item, i) => {
             let innerString = `<div class="subheader-wrapper">
-    <h2>${this.headers[i]}</h2>
-    <h4>${this.descriptions[i]}</h4>
-    </div>
-    <button class="minimize" title="Minimize" onclick="toggleMini(this, ${i})"></button>`;
-            createHtml('section', 'series', item, innerString, htmlElements.container);
+                <h2>${this.headers[i]}</h2>
+                <h4>${this.descriptions[i]}</h4>
+                </div>
+                <button class="minimize" title="Minimize" onclick="audioSections.toggleMini(this, ${i})"></button>`;
+            const newElement = new HtmlElement('section', 'series', item, innerString, htmlElements.container);
+            newElement.createElement();
+            // createHtml('section', 'series', item, innerString, htmlElements.container);
         });
         htmlElements.section = document.querySelectorAll('section');
         handleData(data);
+    },
+    toggleMini: function (miniBtn, num) {
+        htmlElements.section[num].classList.toggle('mini');
+        miniBtn.title === 'Minimize' ? miniBtn.title = 'Maximize' : miniBtn.title = 'Minimize';
     }
 };
 
-var audioListItems = {
+const audioListItems = {
     recordingList: [],
     listItemNum: 0,
     appendList: function (list, num) {
         list.forEach((item) => {
-            const innerString = `<h3>${item.number + 1}. ${item.title}</h3><span onclick="nowPlaying.stop(${this.listItemNum})" title="stop playing">&#10006;</span>
-            <div class="audio-wrapper">
-                <audio onplay="nowPlaying.setPlay(${this.listItemNum})" type="audio/mpeg"
-                    src="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" controls controlsList="nodownload">
-                    Your browser does not support the audio element.
-                </audio>
-                <div id="speed-wrapper">
-                    <label for="a">Playback speed</label><br>
-                    <input type="range" id="a" max="2.5" min="0.5" step="0.25" value="1" oninput="adjustSpeed(this, ${this.listItemNum})">
-                    <br>x<output name="x" for="a">1</output>
-                </div>
+            const innerString = `<button class="btn play" onclick="audioPlayer.play(${this.listItemNum})">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
+            <div class="btns-wrapper">
                 <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
                 <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
             </div>`;
-            createHtml('div', 'list-item', '', innerString, htmlElements.section[num], { name: "tabindex", value: this.listItemNum });
+            const newElement = new HtmlElement('div', 'list-item', '', innerString, htmlElements.section[num], [{ name: "tabindex", value: this.listItemNum }]);
+            newElement.createElement();
             this.listItemNum++;
         });
-        htmlElements.audio = document.querySelectorAll('audio');
-        htmlElements.output = document.querySelectorAll('output');
         htmlElements.listItem = document.querySelectorAll('.list-item');
+    }
+};
+
+const playerElement = {
+    create: function () {
+        let newElement = new HtmlElement('input', '', 'open', '', htmlElements.container, [{name: 'type', value: 'checkbox'}]);
+        newElement.createElement();
+        htmlElements.open = document.getElementById('open');
+        const innerString = `<label for="open" id="open-close-player"></label>
+            <h3></h3>
+            <div class="audio-wrapper">
+                <button class="skip-track" id="prev" onclick="audioPlayer.prev()"  title="play previous track">&#171;</button>
+                <button class="skip" id="back" onclick="audioPlayer.skipBack()" title="rewind 30 seconds">30</button>
+                <audio type="audio/mpeg"
+                    src="" controls controlsList="nodownload" onended="audioPlayer.next()">
+                    Your browser does not support the audio element.
+                </audio>
+                <button class="skip" id="forward"  onclick="audioPlayer.skipForward()" title="forward 30 seconds">30</button>
+                <button class="skip-track" id="next" onclick="audioPlayer.next()" title="play next track">&#187;</button>
+                <div id="speed-wrapper">
+                    <label for="a">Playback speed</label><br>
+                    <input type="range" id="a" max="2.5" min="0.5" step="0.25" value="1" oninput="audioPlayer.adjustSpeed(this, ${this.listItemNum})">
+                    <br>x<output name="x" for="a">1</output>
+                </div>
+                <a id="player-yt" class="btn yt" href="" onclick="audioPlayer.goToYt(this)"
+                    title="Continue this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
+                <a id="player-dl" class="btn" href="" title="Download" download>&#8681;</a>
+            </div>`;
+        newElement = new HtmlElement('div', '', 'player', innerString, htmlElements.container, [{ name: "tabindex", value: 1 }]);
+        newElement.createElement();
+        this.listItemNum++;
+        htmlElements.player = document.getElementById('player');
+        htmlElements.playerYtLink = document.getElementById('player-yt');
+        htmlElements.playerDlLink = document.getElementById('player-dl');
+        htmlElements.playerTitle = document.querySelector('#player>h3');
+        htmlElements.audio = document.querySelector('audio');
+        htmlElements.output = document.querySelector('output');
     },
 };
 
-function toggleMini(miniBtn, num) {
-    htmlElements.section[num].classList.toggle('mini');
-    miniBtn.title === 'Minimize' ? miniBtn.title = 'Maximize' : miniBtn.title = 'Minimize';
-};
-
-function adjustSpeed(range, num) {
-    htmlElements.audio[num].playbackRate = range.value;
-    htmlElements.output[num].innerHTML = range.value;
-};
-
-const nowPlaying = {
+const audioPlayer = {
     number: 0,
-    open: false,
-    setPlay: function (num) {
-        if (num === this.number && this.open === false) {
-            htmlElements.listItem[num].classList.add('now-playing');
-            this.open = true;
-        } else if (num !== this.number) {
-            this.open ? this.stop(this.number) : this.open = true;
-            this.number = num;
-            htmlElements.listItem[num].classList.add('now-playing');
-        }
+    play: function (num) {
+        htmlElements.listItem[this.number].classList.remove('now-playing')
+        htmlElements.listItem[num].classList.add('now-playing')
+        htmlElements.playerTitle.innerHTML = `${audioListItems.recordingList[num].number + 1}. ${audioListItems.recordingList[num].title}`;
+        htmlElements.audio.src = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${audioListItems.recordingList[num].title}.mp3`;
+        htmlElements.playerDlLink.href = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${audioListItems.recordingList[num].title}.mp3`;
+        htmlElements.audio.play();
+        htmlElements.open.checked = true;
+        this.number = num;
     },
-    stop: function (num) {
-        htmlElements.audio[num].pause();
-        htmlElements.listItem[num].classList.remove('now-playing');
-        this.open = false;
+    skipBack: function () {
+        htmlElements.audio.currentTime -= 30.0;
+    },
+    skipForward: function () {
+        htmlElements.audio.currentTime += 30.0;
+    },
+    prev: function () {
+        this.play(this.number - 1)
+    },
+    next: function () {
+        this.play(this.number + 1)
+    },
+    adjustSpeed: function (range) {
+        htmlElements.audio.playbackRate = range.value;
+        htmlElements.output.innerHTML = range.value;
+    },
+    goToYt: function (link) {
+        link.href = `https://youtu.be/${audioListItems.recordingList[this.number].ytId}?t=${parseInt(htmlElements.audio.currentTime)}`;
+        link.click();
     }
 };
 

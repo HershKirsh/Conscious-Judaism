@@ -4,7 +4,7 @@ function getData(url, method) {
             return res.json();
         })
         .then(data => {
-            appendHtml(data);
+            renderPage[pageNum](data);
         })
 };
 
