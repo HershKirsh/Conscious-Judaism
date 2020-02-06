@@ -30,7 +30,7 @@ const getPageData = [
 ];
 
 
-var renderPage = [
+const renderPage = [
     function renderHome() {
         console.log("rendered Home");
     },
@@ -48,7 +48,7 @@ var renderPage = [
     }
 ];
 
-
+getPageData[pageNum]();
 
 const appendHtml = (data) => {
     audioSections.create(data)
