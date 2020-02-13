@@ -1,0 +1,281 @@
+body {
+    background-image: url(../assets/bg4-double_b-w.jpg);
+    background-repeat: repeat-x;
+    animation: clouds 200s linear infinite;
+}
+
+@keyframes clouds {
+    100% {background-position-x: 1000%;}
+}
+
+header {
+    position: absolute;
+    width: 100%;
+}
+
+#container {
+    max-width: 100vw;
+}
+
+section {
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+}
+
+/*****************
+    hero section
+*****************/
+
+section#hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#hero h4 {
+    position: absolute;
+    width: 60%;
+    padding-top: 10vh;
+    font: bold 5rem 'Calistoga', cursive;
+    margin: 0 auto;
+    color: var(--main-color);
+    text-shadow: 2px 2px 3px #fff;
+    text-transform: capitalize;
+    /* transform: translateX(-100vw); */
+    opacity: 0;
+}
+
+#hero h4:nth-of-type(1) {
+    animation: fadeIn 18s ease-in infinite;
+}
+
+#hero h4:nth-of-type(2) {
+    animation: fadeIn 18s ease-in 6s infinite;
+}
+
+#hero h4:nth-of-type(3) {
+    animation: fadeIn 18s ease-in 12s infinite;
+}
+
+@keyframes fadeIn {
+    10% {
+        opacity: 1;
+    }
+    30% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0
+    }
+}
+
+/***************
+    Audio Section
+**************/
+section#audio-section {
+    background-color: #000000;
+    background-image: url(../assets/audio_waves.png);
+    background-size: 110%;
+    background-repeat: repeat-x;
+    background-position: 0% 50%;
+    animation: soundwaves 10s linear infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* opacity: .7; */
+}
+
+@keyframes soundwaves {
+    100% {background-position-x: 1000%;}
+}
+
+#audio-section h2, #inspiration-section h2 {
+    font: bold 4rem 'sans-serif';
+}
+
+#audio-section h4, #inspiration-section h4 {
+    font: bold 2.5rem 'sans-serif';
+}
+
+#audio-section button,  #inspiration-section button {
+    border: none;
+    border-radius: 1.5rem;
+    background-color: var(--main-color);
+    height: 3rem;
+    width: 20rem;
+    color: #fff;
+    transition: all .3s;
+}
+
+#audio-section button:hover {
+    mix-blend-mode: difference;
+}
+
+#inspiration-section h2 {
+    color: #000;
+}
+
+#inspiration-section button {
+    background-color: #000;
+}
+
+#inspiration-section h2, #inspiration-section h4 {
+    color: var(--main-color);
+}
+
+#inspiration-section button:hover {
+    background-color: var(--main-color);
+}
+
+/*****************
+book / about section
+*****************/
+
+#about-section {
+    display: grid;
+    perspective: 5000px;
+    justify-content: center;
+    background-image: url(../assets/puzzle.jpg), linear-gradient(90deg,  white, black);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: .7;
+}
+
+#book {
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    perspective: 3000px;
+    cursor: pointer;
+    transform: rotateX(40deg);
+    transition: all 1s;
+}
+
+#book:focus {
+    outline: none;
+    transform-origin: 0% 50%;
+    transform: rotateX(40deg) translateX(50%);
+    pointer-events: none;
+}
+
+#cover {
+    backface-visibility: hidden;
+}
+
+#cover h3 {
+    font-size: 2rem;
+    color: #ffffff;
+}
+
+#book:focus>#cover {
+    transform: rotateY(-180deg);
+    animation: index 800ms linear forwards;
+    backface-visibility: visible;
+}
+
+@keyframes index {
+    50% {
+        z-index: 1;
+    }
+    100% {
+        z-index: -1;
+    }
+}
+
+#book:focus>#first-page, #book:focus>#backside {
+    transition-delay: .4s;
+    transform: rotateY(-160deg);
+}
+
+#book:focus>#second-page {
+    transition-delay: .6s;
+    transform: rotateY(-20deg);
+}
+
+.page, #cover {
+    position: absolute;
+    width: 50vw;
+    max-width: 350px;
+    min-height: 70vh;
+    max-height: 520px;
+    background: #fff;
+    color: #000;
+    padding: 1.5em;
+    text-align: justify;
+    transform-origin: 0 100%;
+    border-radius: 0 5px 5px 0;
+    box-shadow: inset -3px 0px 20px rgba(0, 0, 0, 0.2), 0px 0px 15px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    transition: all 1s;
+}
+
+#cover, #book:before {
+    background-color: var(--main-color);
+    text-align: center;
+    padding-top: 5em;
+    width: calc(50vw + 2px);
+    max-width: 360px;
+    height: calc(70vh + 8px);
+    margin-left: 6px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 4px 3px #9b9797a6;
+}
+
+#book:before {
+    content: '';
+    position: relative;
+    left: -9px;
+    width: 50vw;
+    max-width: 350px;
+    border-radius: 0 5px 5px 0;
+}
+
+#first-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#first-page img {
+    width: 30%;
+    filter: sepia(1);
+}
+
+#first-page * {
+    transform: scaleX(-1);
+}
+
+#backside {
+    backface-visibility: hidden;
+}
+
+#backside p {
+    font-size: 24px;
+    text-align: center;
+    padding-top: 5em;
+}
+
+@media screen and (max-width: 600px) {
+    #hero h4,  #audio-section h2 {
+        font-size: 50px;
+    }
+
+    #audio-section h4 {
+        font-size: 30px;
+    }
+
+    #book {
+        perspective: 5000px;
+    }
+
+    #book .page {
+        font-size: 12px;
+    }
+}

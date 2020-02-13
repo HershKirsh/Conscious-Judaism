@@ -5,6 +5,26 @@ var htmlElements = {
 };
 
 class HtmlElement {
+    constructor(_tag, _class, _id, _innerContent, _insertTo, _attributes) {
+        this.tag = _tag;
+        this.class = _class;
+        this.id = _id;
+        this.innerContent = _innerContent;
+        this.insertTo = _insertTo ? _insertTo : htmlElements.container;
+        this.attributes = _attributes;
+    };
+    createElement() {
+        const newElement = document.createElement(this.tag);
+        if (this.class) { newElement.classList.add(this.class) };
+        if (this.id) { newElement.id = this.id };
+        if (this.attributes) { this.attributes.forEach(attribute => newElement.setAttribute(attribute.name, attribute.value)) }
+        const textNode = (this.innerContent);
+        newElement.innerHTML = textNode;
+        this.insertTo.insertAdjacentElement('beforeend', newElement);
+    };
+}
+
+class HtElement {
     constructor(_obj) {
         this.tag = _obj.tag;
         this.class = _obj.class;
@@ -43,61 +63,105 @@ class HtmlElement {
                 newElement.innerHTML = textNode;
                 this.insertTo.insertAdjacentElement('beforeend', newElement);
             }
-            if (this.selectors) this.selectors();
+            this.selectors();
             resolve()
         })
     }
 };
 
-const homePage = new HtmlElement({
-    data: [
-        {
-            id: 'hero', innerStrings: `<h4>Get in touch with who you are</h4>
+const homePage = {
+    sections: ['hero', 'audio-section', 'inspiration-section', 'about-section'],
+    innerStrings: [`<h4>Get in touch with who you are</h4>
         <h4>Awaken your soul</h4>
-        <h4>Rejuvinate your spirit</h4>`},
-        {
-            id: 'audio-section', innerStrings: `<h2>Get a Spiritual Upgrade</h2>
+        <h4>Rejuvinate your spirit</h4>`, ` <h2>Get a Spiritual Upgrade</h2>
         <h4>Stream and Download full lectures</h4>
-        <button onclick="renderAudio()">Go To Audio</button>`,
-        },
-        {
-            id: 'inspiration-section', innerStrings: `<h2>Food for the spirit</h2>
-        <button onclick="renderInspiration()">Get Inspiration</button>
-        <h4>Short Quotes and Video Clips</h4>`},
-        {
-            id: 'about-section', innerStrings: `<div id="book" tabindex="0">
+        <button onclick="renderAudio()">Go To Audio</button>`, `<h2>Food for the spirit</h2>
+        <h4>Short Quotes and Video Clips</h4>
+        <button onclick="renderInspiration()">Get Inspiration</button>`, `<div id="book" tabindex="0">
             <div class="page" id="second-page">
-                <p>After acquiring a strong foundation and structure from these writings,
-                    he continued to involve himself with additional works that aim to unravel the mystery of our experience.
+                <p>After acquiring a strong foundation and structure from these
+                    writings,
+                    he continued to involve himself with additional works that aim to unravel the mystery of our
+                    experience.
                     Included are, Sefer Yetzira and its commentaries, Sefer HaBohir, Sefer HaKuna, Sefer HaTmuna,
-                    The Zohar, as well as the writings of The Arizal. Drawing from the reliable wellsprings of wisdom from these great
-                    masters, he attained a deeper perspective on the nature of our existence and reality as a whole.</p>
-                <p> He is also blessed with an uncanny ability to transmit of his wisdom to others in a distinctly coherent and unambiguous fashion.</p>
+                    The
+                    Zohar,
+                    as well as the writings of The Arizal. Drawing from the reliable wellsprings of wisdom from
+                    these
+                    great
+                    masters, he attained a deeper perspective on the nature of our existence and reality as a whole.
+                </p>
+                <p> He is also blessed with an uncanny ability to transmit of his wisdom to others in a distinctly
+                    coherent
+                    and unambiguous fashion.
+                </p>
                 <p>In Yakov's teachings, he places an emphasis on turning one's perspective inwards to recognize
-                    that the answers to all important questions are hiding in plain sight to one who properly analyzes the true nature of their existence.</p>
+                    that the answers to all important questions are hiding in plain sight to one who properly
+                    analyzes
+                    the
+                    true nature of their existence.
+                </p>
             </div>
             <div class="page" id="first-page">
                 <img src="./assets/yakov.png" alt="Yakov Kirsh">
-                <p>With the premise that the wisdom of the Torah can solve the mystery of the human existence in this
-                    elusive reality, Yakov Kirsh has dedicated himself to decipher the code. Using the Chasidic wisdom,
-                    revealed by the Baal Shem Tov, Yakov started gathering the fragments of the puzzle.</p>
+                <p>With the premise that the wisdom of the Torah can solve the mystery of the human existence in
+                    this
+                    elusive reality, Yakov Kirsh has dedicated himself to decipher the code. Using the Chasidic
+                    wisdom,
+                    revealed by the Baal Shem Tov, Yakov started gathering the fragments of the puzzle.
+                </p>
                 <p>Yakov found a particular lucidity in the writings of the 19th century Chasidic master Reb Tzadok
-                    HaKohen of Lublin (1823-1900).
+                    HaKohen
+                    of Lublin (1823-1900).
                     Yakov immersed himself in the writings of Reb Tzadok, reviewing all the available writings
-                    numerous times. He also collected excerpts from his writings, which he found were aiming to explain the core meaning and purpose of life.</p>
-            </div>
-            <div class="page" id="backside"><p>About Yokov Kirsh</p>
+                    numerous times. He also collected excerpts from his writings, which he found were aiming to
+                    explain
+                    the
+                    core meaning and purpose of life. 
+                </p>
             </div>
             <div id="cover">
                 <h3>About Yakov Kirsh</h3>
             </div>
-        </div>`}
-    ],
-    tag: 'section',
-    insertTo: htmlElements.container
-})
+        </div>`],
+    create: function () {
+        this.sections.forEach((section, i) => {
+            innerString = this.innerStrings[i];
+            const newElement = new HtmlElement('section', '', section, innerString, htmlElements.container);
+            newElement.createElement();
+        })
+    }
+}
 
-const audioSections = new HtmlElement({
+// const audioSections = {
+//     IDs: ['DT', 'DME', 'CIN', 'HEB'],
+//     headers: ['Conscious Judaism Series', 'Conscious Chassidus Series', 'Conscious In Nature', 'נשמת ישראל'],
+//     descriptions: ['Recordings on Sefer Dover Tzedek from Reb Tzodok HaCohen of Lublin',
+//         'Recordings on Sefer Degel Machaneh Ephraim', 'Insights conveyed while surrounded by nature', 'שיעורים בעברית'],
+//     create: function (data) {
+//         return new Promise(resolve => {
+//             this.IDs.forEach((item, i) => {
+//                 let innerString = `<div class="subheader-wrapper">
+//                 <h2>${this.headers[i]}</h2>
+//                 <h4>${this.descriptions[i]}</h4>
+//                 </div>
+//                 <button class="minimize" title="Minimize" onclick="audioSections.toggleMini(this, ${i})"></button>`;
+//                 const newElement = new HtmlElement('section', 'series', item, innerString, htmlElements.container);
+//                 newElement.createElement();
+//                 // createHtml('section', 'series', item, innerString, htmlElements.container);
+//             });
+//             htmlElements.section = document.querySelectorAll('section');
+//             resolve()
+//         })
+//     },
+//     toggleMini: function (miniBtn, num) {
+//         htmlElements.section[num].classList.toggle('mini');
+//         miniBtn.title === 'Minimize' ? miniBtn.title = 'Maximize' : miniBtn.title = 'Minimize';
+//     }
+// };
+
+
+const audioSections = new HtElement({
     data: [
         { id: 'DT', header: 'Conscious Judaism Series', description: 'Recordings on Sefer Dover Tzedek from Reb Tzodok HaCohen of Lublin' },
         { id: 'DME', header: 'Conscious Chassidus Series', description: 'Recordings on Sefer Degel Machaneh Ephraim' },
@@ -127,94 +191,53 @@ const audioSections = new HtmlElement({
     }
 })
 
-const dtList = new HtmlElement({
+// const audioListItems = {
+//     recordingList: [],
+//     listItemNum: 0,
+//     appendList: function (list, num) {
+//         list.forEach((item) => {
+//             const innerString = `<button class="btn play" onclick="audioPlayer.play(${this.listItemNum})">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
+//             <div class="btns-wrapper">
+//                 <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
+//                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
+//                 <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
+//             </div>`;
+//             const newElement = new HtmlElement('div', 'list-item', '', innerString, htmlElements.section[num], [{ name: "tabindex", value: this.listItemNum }]);
+//             newElement.createElement();
+//             this.listItemNum++;
+//         });
+//         htmlElements.listItem = document.querySelectorAll('.list-item');
+//     }
+// };
+
+const audioListItems = new HtElement({
     tag: 'div',
     class: 'list-item',
+    listItemNum: 0,
     getString: function (item) {
-        const innerString = `<button class="btn play" onclick="audioPlayer.play(${item.number}, 'dt')">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
+        const innerString = `<button class="btn play" onclick="audioPlayer.play(${this.listItemNum})">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
             <div class="btns-wrapper">
                 <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
                 <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
             </div>`;
+        this.listItemNum++;
         return innerString;
     },
     insertTo: function () {
         return htmlElements.sections[0];
     },
-    attributes: [{ name: "tabindex", value: 1 }],
+    atrributes: [{ name: "tabindex", value: this.listItemNum }],
     selectors: function () {
-        htmlElements.dtList = document.querySelectorAll('#DT .list-item');
+        htmlElements.listItem = document.querySelectorAll('.list-item');
     }
 });
 
-const dmeList = new HtmlElement({
-    tag: 'div',
-    class: 'list-item',
-    getString: function (item) {
-        const innerString = `<button class="btn play" onclick="audioPlayer.play(${item.number}, 'dme')">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
-            <div class="btns-wrapper">
-                <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
-                    title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
-                <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
-            </div>`;
-        return innerString;
-    },
-    insertTo: function () {
-        return htmlElements.sections[1];
-    },
-    attributes: [{ name: "tabindex", value: 2 }],
-    selectors: function () {
-        htmlElements.dmeList = document.querySelectorAll('#DME .list-item');
-    }
-});
-
-const cinList = new HtmlElement({
-    tag: 'div',
-    class: 'list-item',
-    getString: function (item) {
-        const innerString = `<button class="btn play" onclick="audioPlayer.play(${item.number}, 'cin')">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
-            <div class="btns-wrapper">
-                <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
-                    title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
-                <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
-            </div>`;
-        return innerString;
-    },
-    insertTo: function () {
-        return htmlElements.sections[2];
-    },
-    attributes: [{ name: "tabindex", value: 3 }],
-    selectors: function () {
-        htmlElements.cinList = document.querySelectorAll('#CIN .list-item');
-    }
-});
-
-const hebList = new HtmlElement({
-    tag: 'div',
-    class: 'list-item',
-    getString: function (item) {
-        const innerString = `<button class="btn play" onclick="audioPlayer.play(${item.number}, 'heb')">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
-            <div class="btns-wrapper">
-                <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
-                    title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
-                <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
-            </div>`;
-        return innerString;
-    },
-    insertTo: function () {
-        return htmlElements.sections[3];
-    },
-    attributes: [{ name: "tabindex", value: 4 }],
-    selectors: function () {
-        htmlElements.hebList = document.querySelectorAll('#HEB .list-item');
-    }
-});
-
-const playerElement = new HtmlElement({
-    tag: 'div',
-    id: 'player',
-    getString: function () {
+const playerElement = {
+    create: function () {
+        let newElement = new HtmlElement('input', 'invisible', 'open', '', htmlElements.container, [{ name: 'type', value: 'checkbox' }]);
+        newElement.createElement();
+        htmlElements.open = document.getElementById('open');
         const innerString = `<label for="open" id="open-close-player"></label>
             <h3></h3>
             <div class="audio-wrapper">
@@ -235,68 +258,42 @@ const playerElement = new HtmlElement({
                     title="Continue this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
                 <a id="player-dl" class="btn" href="" title="Download" download>&#8681;</a>
             </div>`;
-        return innerString;
-    },
-    insertTo: htmlElements.container,
-    attributes: [{ name: "tabindex", value: 1 }],
-    selectors: function () {
+        newElement = new HtmlElement('div', '', 'player', innerString, htmlElements.container, [{ name: "tabindex", value: 1 }]);
+        newElement.createElement();
+        this.listItemNum++;
         htmlElements.player = document.getElementById('player');
         htmlElements.playerYtLink = document.getElementById('player-yt');
         htmlElements.playerDlLink = document.getElementById('player-dl');
         htmlElements.playerTitle = document.querySelector('#player>h3');
         htmlElements.audio = document.querySelector('audio');
         htmlElements.output = document.querySelector('output');
-        const newElement = document.createElement('input');
-        newElement.classList.add('invisible');
-        newElement.id = 'open';
-        newElement.type = 'checkbox';
-        htmlElements.player.insertAdjacentElement('beforeBegin', newElement);
-        htmlElements.open = document.getElementById('open');
     }
-});
+};
 
 const audioPlayer = {
-    nowPlayingObj: {},
-    nowPlayingElement: null,
-    play: function (num, list) {
-        if (this.nowPlayingElement) this.nowPlayingElement.classList.remove('now-playing')
-        switch (list) {
-            case 'dt':
-                this.nowPlayingObj = dtList.data[num];
-                this.nowPlayingElement = htmlElements.dtList[num];
-                break;
-            case 'dme':
-                this.nowPlayingObj = dmeList.data[num];
-                this.nowPlayingElement = htmlElements.dmeList[num];
-                break;
-            case 'cin':
-                this.nowPlayingObj = cinList.data[num];
-                this.nowPlayingElement = htmlElements.cinList[num];
-                break;
-            case 'heb':
-                this.nowPlayingObj = hebList.data[num];
-                this.nowPlayingElement = htmlElements.hebList[num];
-                break;
-        }
-        this.nowPlayingElement.classList.add('now-playing');
-        htmlElements.playerTitle.innerHTML = `${this.nowPlayingObj.number + 1}. ${this.nowPlayingObj.title}`;
-        htmlElements.audio.src = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.nowPlayingObj.title}.mp3`;
-        htmlElements.playerDlLink.href = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.nowPlayingObj.title}.mp3`;
+    number: 0,
+    play: function (num) {
+        htmlElements.listItem[this.number].classList.remove('now-playing')
+        htmlElements.listItem[num].classList.add('now-playing')
+        htmlElements.playerTitle.innerHTML = `${audioListItems.recordingList[num].number + 1}. ${audioListItems.recordingList[num].title}`;
+        htmlElements.audio.src = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${audioListItems.recordingList[num].title}.mp3`;
+        htmlElements.playerDlLink.href = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${audioListItems.recordingList[num].title}.mp3`;
         htmlElements.audio.play();
         htmlElements.open.checked = true;
+        this.number = num;
         if ('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata({
-                title: `${this.nowPlayingObj.number + 1}. ${this.nowPlayingObj.title}`,
+                title: `${audioListItems.recordingList[num].number + 1}. ${audioListItems.recordingList[num].title}`,
                 artist: 'Yakov Kirsh',
                 album: 'Conscious Judaism',
                 artwork: [
                     { src: '../assets/logo.png', type: 'image/png' },
                 ]
             });
-            navigator.mediaSession.setActionHandler('seekbackward', this.skipBack);
-            navigator.mediaSession.setActionHandler('seekforward', this.skipForward);
-            navigator.mediaSession.setActionHandler('previoustrack', this.prev);
-            navigator.mediaSession.setActionHandler('nexttrack', this.next);
+            navigator.mediaSession.setActionHandler('seekbackward', this.skipBack());
+            navigator.mediaSession.setActionHandler('seekforward', this.skipForward());
+            navigator.mediaSession.setActionHandler('previoustrack', this.prev());
+            navigator.mediaSession.setActionHandler('nexttrack', this.next());
         }
     },
     skipBack: function () {
@@ -306,18 +303,17 @@ const audioPlayer = {
         htmlElements.audio.currentTime += 30.0;
     },
     prev: function () {
-        if (this.nowPlayingObj.number >= 0) this.play(this.nowPlayingObj.number - 1, this.nowPlayingObj.series);
+        this.play(this.number - 1)
     },
     next: function () {
-        this.play(this.nowPlayingObj.number + 1, this.nowPlayingObj.series);
+        this.play(this.number + 1)
     },
     adjustSpeed: function (range) {
         htmlElements.audio.playbackRate = range.value;
         htmlElements.output.innerHTML = range.value;
     },
     goToYt: function (link) {
-        htmlElements.audio.pause();
-        link.href = `https://youtu.be/${this.nowPlayingObj.ytId}?t=${parseInt(htmlElements.audio.currentTime)}`;
+        link.href = `https://youtu.be/${audioListItems.recordingList[this.number].ytId}?t=${parseInt(htmlElements.audio.currentTime)}`;
         link.click();
     }
 };
