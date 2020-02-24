@@ -171,6 +171,10 @@ button.play {
     max-width: 40px;
 }
 
+#HEB .list-item.now-playing button.play:before {
+    content: 'מסלול נוכחי';
+}
+
 #player {
     position: fixed;
     left: 0;

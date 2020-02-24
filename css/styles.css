@@ -39,6 +39,7 @@ header #logo img {
     max-width: 125px;
     padding: 10px;
     opacity: .7;
+    cursor: pointer;
 }
 
 /************************
@@ -63,11 +64,14 @@ li a {
     text-align: left;
     padding-left: 10px;
     z-index: 1;
+    pointer-events: none;
 }
 
 #menu-btn {
     transition: all .4s;
     font-size: 20px;
+    pointer-events: all;
+    margin-left: 10px;
 }
 
 #menu-btn:focus {
@@ -89,6 +93,7 @@ li a {
     width: 50px;
     transition: all .4s;
     transform: translateX(-110%);
+    pointer-events: all;
 }
 
 #main-menu li:nth-of-type(1) {
@@ -162,6 +167,7 @@ li a {
     z-index: 1;
     width: min-content;
     pointer-events: none;
+    mix-blend-mode: exclusion;
 }
 
 #social-media h5 {
@@ -186,8 +192,12 @@ li a {
     color: #ff0000;
 }
 
-#social-media #ig-link:hover {
-    color: #cb0063;
+#social-media #ig-link:hover>i {
+    color: transparent;
+    background: #d6249f;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
 footer {
@@ -207,4 +217,28 @@ footer a {
 
 footer a:hover {
     color: rgb(114, 46, 46);
+}
+
+@media screen and (max-width: 550px) {
+    
+    #main-menu {
+        width: 100%;
+        padding-left: 0;
+    }
+    
+    #menu-btn:focus {
+        transform: translateX(84vw);
+    }
+    
+    #main-menu li {
+        width: 100%;
+        border-top: solid 1px;
+        padding-left: 10px;
+        background-color: #818bb4;
+    }
+
+    #main-menu li:last-of-type {
+        border-bottom: solid 1px;
+    }
+    
 }

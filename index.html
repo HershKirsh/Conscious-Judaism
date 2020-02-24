@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="manifest" href="/manifest.json">
-    <link id="fav" rel="icon" href="assets/logo.png" type="image/gif" sizes="16x16">
+    <link rel="icon" href="assets/logo.png" type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css" />
@@ -16,13 +16,13 @@
 
 <body>
     <header>
-        <div id="logo"><img src="assets/logo.png" alt="logo"></div>
+        <a id="logo" href="#home" onclick="setPage('home')" title="Go to Home page"><img src="assets/logo.png" alt="logo"></a>
         <h1>Conscious Judaism</h1>
     </header>
     <nav>
         <ul id="main-menu" class="all-pages">
             <i id="menu-btn" class="fas fa-bars" tabindex="0"></i>
-            <li><a id="about" href="#about"><i class="fas fa-info-circle">About</i></a></li>
+            <li><a id="about" href="#about-section"><i class="fas fa-info-circle">About</i></a></li>
             <li><a id="audio" href="#audio" onclick="setPage('audio')"><i class="fas fa-microphone">Audio</i></a></li>
             <li><a id="video" href="#video" onclick="setPage('video')"><i class="fas fa-video">Inspiration</i></a></li>
             <li><a id="connect" href="#connect" onclick="setPage('connect')"><i class="fas fa-envelope-open-text">Connect</i></a></li>

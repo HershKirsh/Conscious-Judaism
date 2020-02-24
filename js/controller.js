@@ -1,5 +1,5 @@
-//var currentPage = /[^#]*$/.exec(window.location.href)[0];
-const currentPage = "home"
+var currentPage = /[^#]*$/.exec(window.location.href)[0];
+//const currentPage = "home"
 const pageArray = ["home", "about", "audio", "video", "connect"];
 let pageNum = pageArray.indexOf(currentPage);
 if (pageNum === -1) pageNum = 0;
@@ -20,14 +20,21 @@ const renderPage = [
     },
     async function audio() {
         htmlElements.stylesheet.href = "css/audio.css"
-        let url = "https://conscious-j.herokuapp.com/recording/";
-        const data = await getData(url, "GET")
-        //await audioSections.create(data);
-        await audioSections.createElement();
-        dtList.createElement(data.filter(item => item.series == 'dt').sort((a, b) => a.number > b.number ? 1 : -1));
-        dmeList.createElement(data.filter(item => item.series == 'dme').sort((a, b) => a.number > b.number ? 1 : -1));
-        cinList.createElement(data.filter(item => item.series == 'cin').sort((a, b) => a.number > b.number ? 1 : -1));
-        hebList.createElement(data.filter(item => item.series == 'heb').sort((a, b) => a.number > b.number ? 1 : -1));
+        if (dtList.data) {
+            await audioSections.createElement();
+            dtList.createElement()
+            dmeList.createElement()
+            cinList.createElement()
+            hebList.createElement()
+        } else {
+            let url = "https://conscious-j.herokuapp.com/recording/";
+            const data = await getData(url, "GET")
+            await audioSections.createElement();
+            dtList.createElement(data.filter(item => item.series == 'dt').sort((a, b) => a.number > b.number ? 1 : -1));
+            dmeList.createElement(data.filter(item => item.series == 'dme').sort((a, b) => a.number > b.number ? 1 : -1));
+            cinList.createElement(data.filter(item => item.series == 'cin').sort((a, b) => a.number > b.number ? 1 : -1));
+            hebList.createElement(data.filter(item => item.series == 'heb').sort((a, b) => a.number > b.number ? 1 : -1));
+        }
         playerElement.createElement();
     },
     function video() {

@@ -17,7 +17,7 @@ class HtmlElement {
     };
     createElement(data) {
         return new Promise(resolve => {
-            if (typeof this.insertTo === "function") this.insertTo = this.insertTo();
+
             if (data || this.data) {
                 if (data) this.data = data;
                 this.data.forEach((item, i) => {
@@ -32,7 +32,13 @@ class HtmlElement {
                         const textNode = this.innerContent(item, i);
                         newElement.innerHTML = textNode;
                     };
-                    this.insertTo.insertAdjacentElement('beforeend', newElement);
+                    if (typeof this.insertTo === "function") {
+                        const insertToElem = this.insertTo();
+                        insertToElem.insertAdjacentElement('beforeend', newElement);
+                    } else {
+                        this.insertTo.insertAdjacentElement('beforeend', newElement);
+                    };
+                    item.element = newElement;
                 });
             } else {
                 const newElement = document.createElement(this.tag);
@@ -41,7 +47,12 @@ class HtmlElement {
                 if (this.attributes) { this.attributes.forEach(attribute => newElement.setAttribute(attribute.name, attribute.value)) }
                 const textNode = (this.innerContent());
                 newElement.innerHTML = textNode;
-                this.insertTo.insertAdjacentElement('beforeend', newElement);
+                if (typeof this.insertTo === "function") {
+                    const insertToElem = this.insertTo();
+                    insertToElem.insertAdjacentElement('beforeend', newElement);
+                } else {
+                    this.insertTo.insertAdjacentElement('beforeend', newElement);
+                };
             }
             if (this.selectors) this.selectors();
             resolve()
@@ -97,6 +108,25 @@ const homePage = new HtmlElement({
     insertTo: htmlElements.container
 })
 
+function getStoredData() {
+    const storedData = localStorage.getItem('audioStoredData');
+    const audioData = JSON.parse(storedData)
+    if (audioData) {
+        htmlElements.speedRangeq.value = audioData.playbackSpeed;
+        audioPlayer.adjustSpeed(audioData.playbackSpeed);
+        audioPlayer.play(audioData.currentTrack);
+        audioData.dt.forEach(track => {
+            dtList.data[track.number].position = track.position;
+            if (track.complete) htmlElements.dt[track.number].classList.add('complete');
+        })
+
+        document.addEventListener('unload', saveData)
+        function saveData() {
+            const tracks = dtList.data(item => item.position)
+        }
+    }
+}
+
 const audioSections = new HtmlElement({
     data: [
         { id: 'DT', header: 'Conscious Judaism Series', description: 'Recordings on Sefer Dover Tzedek from Reb Tzodok HaCohen of Lublin' },
@@ -112,7 +142,6 @@ const audioSections = new HtmlElement({
                 <h2>${item.header}</h2>
                 <h4>${item.description}</h4>
                 </div>`
-        //  <button class="minimize" title="Minimize" onclick="audioSections.toggleMini(this, ${i})"></button>;
         return innerString;
     },
     selectors: function () {
@@ -125,13 +154,13 @@ const audioSections = new HtmlElement({
             item.insertAdjacentElement('beforeBegin', newElement);
         })
     }
-})
+});
 
 const dtList = new HtmlElement({
     tag: 'div',
     class: 'list-item',
     getString: function (item) {
-        const innerString = `<button class="btn play" onclick="audioPlayer.play(${item.number}, 'dt')">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
+        const innerString = `<button class="btn play">&#9654;</button><h3 title="Uploaded: ${new Date(item.date).toLocaleString(undefined, { year: "numeric", month: "long", day: "numeric" })}">${item.number + 1}. ${item.title}</h3>
             <div class="btns-wrapper">
                 <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
@@ -145,6 +174,12 @@ const dtList = new HtmlElement({
     attributes: [{ name: "tabindex", value: 1 }],
     selectors: function () {
         htmlElements.dtList = document.querySelectorAll('#DT .list-item');
+        htmlElements.dtListPlay = document.querySelectorAll('#DT .list-item .play');
+        this.data.forEach((item, i) => {
+            track = new Track(item, i)
+            track.addInstance()
+            htmlElements.dtListPlay[i].addEventListener('click', () => Track.instanceArray[i].play())
+        })
     }
 });
 
@@ -152,7 +187,7 @@ const dmeList = new HtmlElement({
     tag: 'div',
     class: 'list-item',
     getString: function (item) {
-        const innerString = `<button class="btn play" onclick="audioPlayer.play(${item.number}, 'dme')">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
+        const innerString = `<button class="btn play")">&#9654;</button><h3 title="Uploaded: ${new Date(item.date).toLocaleString(undefined, { year: "numeric", month: "long", day: "numeric" })}">${item.number + 1}. ${item.title}</h3>
             <div class="btns-wrapper">
                 <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
@@ -166,6 +201,13 @@ const dmeList = new HtmlElement({
     attributes: [{ name: "tabindex", value: 2 }],
     selectors: function () {
         htmlElements.dmeList = document.querySelectorAll('#DME .list-item');
+        htmlElements.dmeListPlay = document.querySelectorAll('#DME .list-item .play');
+        const currentLength = Track.instanceArray.length;
+        this.data.forEach((item, i) => {
+            track = new Track(item, currentLength + i)
+            track.addInstance()
+            htmlElements.dmeListPlay[i].addEventListener('click', () => Track.instanceArray[currentLength + i].play())
+        });
     }
 });
 
@@ -173,7 +215,7 @@ const cinList = new HtmlElement({
     tag: 'div',
     class: 'list-item',
     getString: function (item) {
-        const innerString = `<button class="btn play" onclick="audioPlayer.play(${item.number}, 'cin')">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
+        const innerString = `<button class="btn play">&#9654;</button><h3 title="Uploaded: ${new Date(item.date).toLocaleString(undefined, { year: "numeric", month: "long", day: "numeric" })}">${item.number + 1}. ${item.title}</h3>
             <div class="btns-wrapper">
                 <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
@@ -187,6 +229,13 @@ const cinList = new HtmlElement({
     attributes: [{ name: "tabindex", value: 3 }],
     selectors: function () {
         htmlElements.cinList = document.querySelectorAll('#CIN .list-item');
+        htmlElements.cinListPlay = document.querySelectorAll('#CIN .list-item .play');
+        const currentLength = Track.instanceArray.length;
+        this.data.forEach((item, i) => {
+            track = new Track(item, currentLength + i)
+            track.addInstance()
+            htmlElements.cinListPlay[i].addEventListener('click', () => Track.instanceArray[currentLength + i].play())
+        });
     }
 });
 
@@ -194,7 +243,7 @@ const hebList = new HtmlElement({
     tag: 'div',
     class: 'list-item',
     getString: function (item) {
-        const innerString = `<button class="btn play" onclick="audioPlayer.play(${item.number}, 'heb')">&#9654;</button><h3>${item.number + 1}. ${item.title}</h3>
+        const innerString = `<button class="btn play">&#9654;</button><h3 title="Uploaded: ${new Date(item.date).toLocaleString(undefined, { year: "numeric", month: "long", day: "numeric" })}">${item.number + 1}. ${item.title}</h3>
             <div class="btns-wrapper">
                 <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
@@ -208,6 +257,13 @@ const hebList = new HtmlElement({
     attributes: [{ name: "tabindex", value: 4 }],
     selectors: function () {
         htmlElements.hebList = document.querySelectorAll('#HEB .list-item');
+        htmlElements.hebListPlay = document.querySelectorAll('#HEB .list-item .play');
+        const currentLength = Track.instanceArray.length;
+        this.data.forEach((item, i) => {
+            track = new Track(item, currentLength + i)
+            track.addInstance()
+            htmlElements.hebListPlay[i].addEventListener('click', () => Track.instanceArray[currentLength + i].play())
+        });
     }
 });
 
@@ -218,20 +274,20 @@ const playerElement = new HtmlElement({
         const innerString = `<label for="open" id="open-close-player"></label>
             <h3></h3>
             <div class="audio-wrapper">
-                <button class="skip-track" id="prev" onclick="audioPlayer.prev()"  title="play previous track">&#171;</button>
+                <button class="skip-track" id="prev" onclick="Track.prev()"  title="play previous track">&#171;</button>
                 <button class="skip" id="back" onclick="audioPlayer.skipBack()" title="rewind 30 seconds">30</button>
                 <audio type="audio/mpeg"
                     src="" controls controlsList="nodownload" onended="audioPlayer.next()">
                     Your browser does not support the audio element.
                 </audio>
                 <button class="skip" id="forward"  onclick="audioPlayer.skipForward()" title="forward 30 seconds">30</button>
-                <button class="skip-track" id="next" onclick="audioPlayer.next()" title="play next track">&#187;</button>
+                <button class="skip-track" id="next" onclick="Track.next()" title="play next track">&#187;</button>
                 <div id="speed-wrapper">
                     <label for="a">Playback speed</label><br>
-                    <input type="range" id="a" max="2.5" min="0.5" step="0.25" value="1" oninput="audioPlayer.adjustSpeed(this, ${this.listItemNum})">
-                    <br>x<output name="x" for="a">1</output>
+                    <input type="range" id="speed-range" max="2.5" min="0.5" step="0.25" value="1" oninput="audioPlayer.adjustSpeed(this, ${this.listItemNum})">
+                    <br>x<output for="speed-range">1</output>
                 </div>
-                <a id="player-yt" class="btn yt" href="" onclick="audioPlayer.goToYt(this)"
+                <a id="player-yt" class="btn yt" href="" onclick="Track.goToYt(this)"
                     title="Continue this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
                 <a id="player-dl" class="btn" href="" title="Download" download>&#8681;</a>
             </div>`;
@@ -245,6 +301,7 @@ const playerElement = new HtmlElement({
         htmlElements.playerDlLink = document.getElementById('player-dl');
         htmlElements.playerTitle = document.querySelector('#player>h3');
         htmlElements.audio = document.querySelector('audio');
+        htmlElements.speedRange = document.querySelector('#speed-range');
         htmlElements.output = document.querySelector('output');
         const newElement = document.createElement('input');
         newElement.classList.add('invisible');
@@ -256,71 +313,70 @@ const playerElement = new HtmlElement({
 });
 
 const audioPlayer = {
-    nowPlayingObj: {},
-    nowPlayingElement: null,
-    play: function (num, list) {
-        if (this.nowPlayingElement) this.nowPlayingElement.classList.remove('now-playing')
-        switch (list) {
-            case 'dt':
-                this.nowPlayingObj = dtList.data[num];
-                this.nowPlayingElement = htmlElements.dtList[num];
-                break;
-            case 'dme':
-                this.nowPlayingObj = dmeList.data[num];
-                this.nowPlayingElement = htmlElements.dmeList[num];
-                break;
-            case 'cin':
-                this.nowPlayingObj = cinList.data[num];
-                this.nowPlayingElement = htmlElements.cinList[num];
-                break;
-            case 'heb':
-                this.nowPlayingObj = hebList.data[num];
-                this.nowPlayingElement = htmlElements.hebList[num];
-                break;
-        }
-        this.nowPlayingElement.classList.add('now-playing');
-        htmlElements.playerTitle.innerHTML = `${this.nowPlayingObj.number + 1}. ${this.nowPlayingObj.title}`;
-        htmlElements.audio.src = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.nowPlayingObj.title}.mp3`;
-        htmlElements.playerDlLink.href = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.nowPlayingObj.title}.mp3`;
-        htmlElements.audio.play();
-        htmlElements.open.checked = true;
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: `${this.nowPlayingObj.number + 1}. ${this.nowPlayingObj.title}`,
-                artist: 'Yakov Kirsh',
-                album: 'Conscious Judaism',
-                artwork: [
-                    { src: '../assets/logo.png', type: 'image/png' },
-                ]
-            });
-            navigator.mediaSession.setActionHandler('seekbackward', this.skipBack);
-            navigator.mediaSession.setActionHandler('seekforward', this.skipForward);
-            navigator.mediaSession.setActionHandler('previoustrack', this.prev);
-            navigator.mediaSession.setActionHandler('nexttrack', this.next);
-        }
-    },
     skipBack: function () {
         htmlElements.audio.currentTime -= 30.0;
     },
     skipForward: function () {
         htmlElements.audio.currentTime += 30.0;
     },
-    prev: function () {
-        if (this.nowPlayingObj.number >= 0) this.play(this.nowPlayingObj.number - 1, this.nowPlayingObj.series);
-    },
-    next: function () {
-        this.play(this.nowPlayingObj.number + 1, this.nowPlayingObj.series);
-    },
     adjustSpeed: function (range) {
         htmlElements.audio.playbackRate = range.value;
         htmlElements.output.innerHTML = range.value;
-    },
-    goToYt: function (link) {
-        htmlElements.audio.pause();
-        link.href = `https://youtu.be/${this.nowPlayingObj.ytId}?t=${parseInt(htmlElements.audio.currentTime)}`;
-        link.click();
     }
 };
+
+class Track {
+    constructor(_trackObj, _i) {
+        this.series = _trackObj.series;
+        this.title = _trackObj.title;
+        this.ytId = _trackObj.ytId;
+        this.number = _trackObj.number;
+        this.index = _i;
+        this.element = _trackObj.element;
+        if (_trackObj.position) { this.position = _trackObj.position } else { this.position = 0 };
+        if (_trackObj.completed) { this.completed = true } else { this.completed = false };
+    };
+    static instanceArray = [];
+    addInstance() {
+        this.constructor.instanceArray.push(this);
+    }
+    static currentTrack;
+    play() {
+        if (this.constructor.currentTrack) this.constructor.currentTrack.element.classList.remove('now-playing');
+        this.constructor.currentTrack = this;
+        this.element.classList.add('now-playing');
+        htmlElements.playerTitle.innerHTML = `${this.number + 1}. ${this.title}`;
+        htmlElements.audio.src = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.title}.mp3`;
+        htmlElements.playerDlLink.href = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.title}.mp3`;
+        htmlElements.audio.play();
+        htmlElements.open.checked = true;
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: `${this.number + 1}. ${this.title}`,
+                artist: 'Yakov Kirsh',
+                album: 'Conscious Judaism',
+                artwork: [
+                    { src: '../assets/logo.png', type: 'image/png' },
+                ]
+            });
+            navigator.mediaSession.setActionHandler('seekbackward', () => audioPlayer.skipBack());
+            navigator.mediaSession.setActionHandler('seekforward', () => audioPlayer.skipForward());
+            navigator.mediaSession.setActionHandler('previoustrack', () => this.constructor.prev());
+            navigator.mediaSession.setActionHandler('nexttrack', () => this.constructor.next());
+        }
+    }
+    static next() {
+        if (this.currentTrack.index < this.instanceArray.length - 1) this.instanceArray[this.currentTrack.index + 1].play();
+    }
+    static prev() {
+        if (this.currentTrack.index > 0) this.instanceArray[this.currentTrack.index - 1].play();
+    }
+    static goToYt(link) {
+        htmlElements.audio.pause();
+        link.href = `https://youtu.be/${this.currentTrack.ytId}?t=${parseInt(htmlElements.audio.currentTime)}`;
+        link.click();
+    }
+}
 
 // const viewH = window.innerHeight;
 
