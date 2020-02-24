@@ -237,6 +237,11 @@ footer a:hover {
         background-color: #818bb4;
     }
 
+    #main-menu li {
+        width: 100%;
+        display: inline-block;
+    }
+
     #main-menu li:last-of-type {
         border-bottom: solid 1px;
     }
