@@ -21,6 +21,7 @@ const renderPage = [
     async function audio() {
         htmlElements.stylesheet.href = "css/audio.css"
         if (dtList.data) {
+            Track.instanceArray = [];
             await audioSections.createElement();
             dtList.createElement()
             dmeList.createElement()

@@ -231,15 +231,20 @@ footer a:hover {
     }
     
     #main-menu li {
+        display: inline-block;
         width: 100%;
         border-top: solid 1px;
         padding-left: 10px;
         background-color: #818bb4;
     }
 
-    #main-menu li {
-        width: 100%;
+    #main-menu li a {
         display: inline-block;
+        width: 100%;
+    }
+
+    #main-menu li:hover {
+        width: 100%;
     }
 
     #main-menu li:last-of-type {
