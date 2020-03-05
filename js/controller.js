@@ -1,6 +1,7 @@
-var currentPage = /[^#]*$/.exec(window.location.href)[0];
+//const currentPage = /[^#]*$/.exec(window.location.href)[0];
+const currentPage = window.location.href.split(/(consciousjudaism.com\/)/).pop();
 //const currentPage = "home"
-const pageArray = ["home", "about", "audio", "video", "connect"];
+const pageArray = ["home", "about", "audio", "inspiration", "connect"];
 let pageNum = pageArray.indexOf(currentPage);
 if (pageNum === -1) pageNum = 0;
 
@@ -13,13 +14,14 @@ function setPage(page) {
 const renderPage = [
     function home() {
         htmlElements.stylesheet.href = "css/home.css";
+        history.pushState(null, null, '/');
         homePage.createElement();
     },
     function about() {
-        console.log("rendered About");
     },
     async function audio() {
-        htmlElements.stylesheet.href = "css/audio.css"
+        htmlElements.stylesheet.href = "css/audio.css";
+        history.pushState(null, null, 'audio');
         if (dtList.data) {
             Track.instanceArray = [];
             await audioSections.createElement();
@@ -38,16 +40,16 @@ const renderPage = [
         }
         playerElement.createElement();
     },
-    function video() {
-        console.log("rendered Video");
+    function inspiration() {
+        htmlElements.stylesheet.href = "css/under-const.css";
+        history.pushState(null, null, 'inspiration');
+        underConstPage.createElement();
     },
     function connect() {
-        console.log("rendered Connect");
+        htmlElements.stylesheet.href = "css/under-const.css";
+        history.pushState(null, null, 'connect');
+        underConstPage.createElement();
     }
 ];
 
 renderPage[pageNum]();
-
-const appendLists = (list, num) => {
-    audioListItems.createElement(list, num);
-};

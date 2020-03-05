@@ -4,6 +4,7 @@
 html {
     scroll-behavior: smooth;
     --main-color: #8a2be2;
+    --main-font: 'Calistoga', cursive;
 }
 
 body {
@@ -118,6 +119,12 @@ li a {
     transition-duration: 0.4s;
     transition-property: transform, width;
     transition-delay: .5s, 0s;
+}
+
+#main-menu li:nth-of-type(5) {
+    transition-duration: 0.4s;
+    transition-property: transform, width;
+    transition-delay: .6s, 0s;
 }
 
 #menu-btn:focus~li {

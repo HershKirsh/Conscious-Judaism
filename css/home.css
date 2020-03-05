@@ -5,7 +5,9 @@ body {
 }
 
 @keyframes clouds {
-    100% {background-position-x: 1000%;}
+    100% {
+        background-position-x: 1000%;
+    }
 }
 
 #main-menu {
@@ -19,7 +21,6 @@ body {
 #main-menu li i:before {
     box-shadow: 0 0 2px 3px var(--main-color);
 }
-
 
 header {
     position: absolute;
@@ -89,6 +90,7 @@ section#hero {
 /***************
     Audio Section
 **************/
+
 section#audio-section {
     background-color: #000000;
     background-image: url(../assets/audio_waves.png);
@@ -103,18 +105,28 @@ section#audio-section {
 }
 
 @keyframes soundwaves {
-    100% {background-position-x: 1000%;}
+    100% {
+        background-position-x: 1000%;
+    }
+}
+
+#audio-section h2, #audio-section h4 {
+    text-shadow: 2px 2px 3px var(--main-color)
+}
+
+#inspiration-section h4, #inspiration-section h2 {
+    text-shadow: 2px 2px 3px #fff
 }
 
 #audio-section h2, #inspiration-section h2 {
-    font: bold 4rem 'sans-serif';
+    font: bold 4rem 'Calistoga', cursive;
 }
 
 #audio-section h4, #inspiration-section h4 {
-    font: bold 2.5rem 'sans-serif';
+    font: bold 2.5rem 'Calistoga', cursive;
 }
 
-#audio-section button,  #inspiration-section button {
+#audio-section button, #inspiration-section button {
     border: none;
     border-radius: 1.5rem;
     background-color: var(--main-color);
@@ -152,7 +164,7 @@ book / about section
     display: grid;
     perspective: 5000px;
     justify-content: center;
-    background-image: url(../assets/puzzle.jpg), linear-gradient(90deg,  white, black);
+    background-image: url(../assets/puzzle.jpg), linear-gradient(90deg, white, black);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -276,18 +288,15 @@ book / about section
 }
 
 @media screen and (max-width: 600px) {
-    #hero h4,  #audio-section h2 {
+    #hero h4, #audio-section h2 {
         font-size: 50px;
     }
-
     #audio-section h4 {
         font-size: 30px;
     }
-
     #book {
         perspective: 5000px;
     }
-
     #book .page {
         font-size: 12px;
     }
@@ -296,5 +305,25 @@ book / about section
 @media screen and (max-width: 400px) {
     #book .page {
         font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #main-menu li {
+        background-color: #fff;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    #hero h4 {
+        font-size: 3rem;
+        padding-top: 35vh;
+    }
+    #book .page {
+        font-size: 11px;
+        padding: 1em;
+    }
+    #first-page img {
+        width: 15%;
     }
 }
