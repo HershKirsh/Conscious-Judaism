@@ -1,0 +1,31 @@
+body {
+    background-image: url(../assets/blueprint.jpg), url(../assets/under_const.jpg), linear-gradient(45deg, #3e76ca, pink);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-blend-mode: soft-light;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-left: 10vw;
+    margin-top: 13vh;
+}
+
+h2 {
+    color: var(--main-color);
+}
+
+h2, h3 {
+    font: normal 3rem var(--main-font);
+    margin: 0;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+footer {
+    position: absolute;
+}

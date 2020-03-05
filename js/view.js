@@ -17,7 +17,6 @@ class HtmlElement {
     };
     createElement(data) {
         return new Promise(resolve => {
-
             if (data || this.data) {
                 if (data) this.data = data;
                 this.data.forEach((item, i) => {
@@ -43,9 +42,9 @@ class HtmlElement {
             } else {
                 const newElement = document.createElement(this.tag);
                 if (this.class) { newElement.classList.add(this.class) };
-                if (this.id) { newElement.id = this.id } else if (item.id) { newElement.id = item.id };
+                if (this.id) { newElement.id = this.id };
                 if (this.attributes) { this.attributes.forEach(attribute => newElement.setAttribute(attribute.name, attribute.value)) }
-                const textNode = (this.innerContent());
+                const textNode = this.innerContent();
                 newElement.innerHTML = textNode;
                 if (typeof this.insertTo === "function") {
                     const insertToElem = this.insertTo();
@@ -69,11 +68,11 @@ const homePage = new HtmlElement({
         {
             id: 'audio-section', innerStrings: `<h2>Get a Spiritual Upgrade</h2>
         <h4>Stream and Download full lectures</h4>
-        <button onclick="renderAudio()">Go To Audio</button>`,
+        <a id="audio" href="javascript:setPage('audio')"><i class="fas fa-microphone">Audio</i></a>`,
         },
         {
             id: 'inspiration-section', innerStrings: `<h2>Food for the spirit</h2>
-        <button onclick="renderInspiration()">Get Inspiration</button>
+            <a id="audio" href="javascript:setPage('video')"><i class="fas fa-microphone">Audio</i></a>
         <h4>Short Quotes and Video Clips</h4>`},
         {
             id: 'about-section', innerStrings: `<div id="book" tabindex="0">
@@ -296,8 +295,8 @@ const playerElement = new HtmlElement({
     insertTo: htmlElements.container,
     attributes: [{ name: "tabindex", value: 1 }],
     selectors: function () {
-        htmlElements.player = document.getElementById('player');
         htmlElements.playerYtLink = document.getElementById('player-yt');
+        htmlElements.player = document.getElementById('player');
         htmlElements.playerDlLink = document.getElementById('player-dl');
         htmlElements.playerTitle = document.querySelector('#player>h3');
         htmlElements.audio = document.querySelector('audio');
@@ -377,6 +376,16 @@ class Track {
         link.click();
     }
 }
+
+
+const underConstPage = new HtmlElement({
+    tag: 'section',
+    getString: function () {
+        const innerString = `<h2>This Page Is Under Construction</h2><h3>Check back soon</h3>`
+        return innerString;
+    },
+    insertTo: htmlElements.container
+})
 
 // const viewH = window.innerHeight;
 
