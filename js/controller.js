@@ -1,6 +1,8 @@
-//const currentPage = /[^#]*$/.exec(window.location.href)[0];
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+};
+
 const currentPage = window.location.href.split(/(consciousjudaism.com\/)/).pop();
-//const currentPage = "home"
 const pageArray = ["home", "about", "audio", "inspiration", "connect"];
 let pageNum = pageArray.indexOf(currentPage);
 if (pageNum === -1) pageNum = 0;

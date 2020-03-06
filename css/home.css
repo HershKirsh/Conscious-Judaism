@@ -126,7 +126,7 @@ section#audio-section {
     font: bold 2.5rem 'Calistoga', cursive;
 }
 
-#audio-section button, #inspiration-section button {
+#audio-section a, #inspiration-section a {
     border: none;
     border-radius: 1.5rem;
     background-color: var(--main-color);
@@ -136,7 +136,7 @@ section#audio-section {
     transition: all .3s;
 }
 
-#audio-section button:hover {
+#audio-section a:hover {
     mix-blend-mode: difference;
 }
 
@@ -144,7 +144,7 @@ section#audio-section {
     color: #000;
 }
 
-#inspiration-section button {
+#inspiration-section a {
     background-color: #000;
 }
 
@@ -152,7 +152,7 @@ section#audio-section {
     color: var(--main-color);
 }
 
-#inspiration-section button:hover {
+#inspiration-section a:hover {
     background-color: var(--main-color);
 }
 

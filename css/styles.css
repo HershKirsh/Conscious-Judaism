@@ -153,6 +153,10 @@ li a {
     transform: translateX(0%);
 }
 
+li#connect {
+    display: none;
+}
+
 /*****************
     Container
 ******************/

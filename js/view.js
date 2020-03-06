@@ -375,7 +375,7 @@ class Track {
         link.href = `https://youtu.be/${this.currentTrack.ytId}?t=${parseInt(htmlElements.audio.currentTime)}`;
         link.click();
     }
-}
+};
 
 
 const underConstPage = new HtmlElement({
@@ -385,36 +385,4 @@ const underConstPage = new HtmlElement({
         return innerString;
     },
     insertTo: htmlElements.container
-})
-
-// const viewH = window.innerHeight;
-
-// var heros = document.querySelectorAll('.hero');
-// const heroOffset = heros[0].offsetTop
-// const offsetP = heroOffset / 100;
-// console.log(heroOffset);
-// window.addEventListener('scroll', function (e) {
-//     let offsetTop = document.documentElement.scrollTop;
-//         let percent = offsetTop / offsetP;
-//         console.log(percent);
-//         heros[0].style.transform = `translateX(${100 - percent + 5}%)`;
-// });
-
-
-
-// let scale = 100;
-// var slide = 0;
-// window.addEventListener('wheel', function (e) {
-//     e.preventDefault;
-//     console.log(e.wheelDelta);
-//     e.wheelDelta <= 0 ? scale -= 5 : scale += 5;
-//     if (scale >= 100) {
-//         scale = 100;
-//     } else if (scale <= -20) {
-//         scale = 200;
-//         heros[slide].style.transform = `translateY(${scale}%)`;
-//         slide++;
-//         scale = 100;
-//     };
-//     heros[slide].style.transform = `translateY(${scale}%)`;
-// });
+});

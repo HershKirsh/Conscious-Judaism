@@ -5,6 +5,10 @@ body {
     background-blend-mode: soft-light;
 }
 
+li#about {
+    display: none;
+}
+
 section {
     display: flex;
     flex-direction: column;

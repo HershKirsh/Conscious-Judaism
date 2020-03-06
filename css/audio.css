@@ -2,6 +2,10 @@ body {
     background-image: linear-gradient(#6376ff4a, #abf1ffbd), url(../assets/bg1.jpg);
 }
 
+li#about {
+    display: none;
+}
+
 section {
     width: 600px;
     max-width: 90%;
