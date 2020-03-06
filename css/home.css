@@ -127,13 +127,17 @@ section#audio-section {
 }
 
 #audio-section a, #inspiration-section a {
-    border: none;
+    display: inline-block;
     border-radius: 1.5rem;
     background-color: var(--main-color);
     height: 3rem;
     width: 20rem;
     color: #fff;
     transition: all .3s;
+    padding: 13px;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: var(--main-font);
 }
 
 #audio-section a:hover {

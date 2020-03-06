@@ -62,20 +62,23 @@ class HtmlElement {
 const homePage = new HtmlElement({
     data: [
         {
-            id: 'hero', innerStrings: `<h4>Get in touch with who you are</h4>
-        <h4>Awaken your soul</h4>
-        <h4>Rejuvinate your spirit</h4>`},
+            id: 'hero',
+            innerStrings: `<h4>Get in touch with who you are</h4>
+            <h4>Awaken your soul</h4>
+            <h4>Rejuvinate your spirit</h4>`},
         {
-            id: 'audio-section', innerStrings: `<h2>Get a Spiritual Upgrade</h2>
-        <h4>Stream and Download full lectures</h4>
-        <a id="audio" href="javascript:setPage('audio')"><i class="fas fa-microphone">Audio</i></a>`,
-        },
+            id: 'audio-section',
+            innerStrings: `<h2>Get a Spiritual Upgrade</h2>
+            <h4>Stream and Download full lectures</h4>
+            <a href="javascript:setPage('audio')">Go To Audio</a>`},
         {
-            id: 'inspiration-section', innerStrings: `<h2>Food for the spirit</h2>
-            <a id="audio" href="javascript:setPage('video')"><i class="fas fa-microphone">Audio</i></a>
-        <h4>Short Quotes and Video Clips</h4>`},
+            id: 'inspiration-section',
+            innerStrings: `<h2>Food for the spirit</h2>
+            <a href="javascript:setPage('inspiration')">Get Inspiration</a>
+            <h4>Short Quotes and Video Clips</h4>`},
         {
-            id: 'about-section', innerStrings: `<div id="book" tabindex="0">
+            id: 'about-section',
+            innerStrings: `<div id="book" tabindex="0">
             <div class="page" id="second-page">
                 <p>After acquiring a strong foundation and structure from these writings,
                     he continued to involve himself with additional works that aim to unravel the mystery of our experience.
@@ -101,7 +104,7 @@ const homePage = new HtmlElement({
             <div id="cover">
                 <h3>About Yakov Kirsh</h3>
             </div>
-        </div>`}
+            </div>`}
     ],
     tag: 'section',
     insertTo: htmlElements.container
