@@ -407,7 +407,7 @@ const observerElements = {
         })
     }, this.options),
     options: {
-        threshhold: 0,
+        threshhold: 1,
         rootMargin: '0px',
     },
     activate: function () {
