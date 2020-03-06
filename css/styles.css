@@ -154,7 +154,7 @@ li a {
 }
 
 li#connect {
-    display: none;
+    display: none !important;
 }
 
 /*****************
