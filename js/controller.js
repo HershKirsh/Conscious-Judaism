@@ -18,6 +18,7 @@ const renderPage = [
         htmlElements.stylesheet.href = "css/home.css";
         history.pushState(null, null, '/');
         homePage.createElement();
+        observerElements.activate();
     },
     function about() {
     },
@@ -46,11 +47,13 @@ const renderPage = [
         htmlElements.stylesheet.href = "css/under-const.css";
         history.pushState(null, null, 'inspiration');
         underConstPage.createElement();
+        observerElements.activate();
     },
     function connect() {
         htmlElements.stylesheet.href = "css/under-const.css";
         history.pushState(null, null, 'connect');
         underConstPage.createElement();
+        observerElements.activate();
     }
 ];
 

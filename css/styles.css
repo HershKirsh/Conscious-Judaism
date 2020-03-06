@@ -230,6 +230,18 @@ footer a:hover {
     color: rgb(114, 46, 46);
 }
 
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(150px);
+    transition: all .8s ease-out .3s;
+}
+
+.fade-in.observed {
+    opacity: 1;
+    transform: translateY(0px);
+}
+
 @media screen and (max-width: 550px) {
     
     #main-menu {

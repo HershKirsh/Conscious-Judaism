@@ -56,20 +56,19 @@ section#hero {
     color: var(--main-color);
     text-shadow: 2px 2px 3px #fff;
     text-transform: capitalize;
-    /* transform: translateX(-100vw); */
     opacity: 0;
 }
 
 #hero h4:nth-of-type(1) {
-    animation: fadeIn 18s ease-in infinite;
+    animation: fadeIn 12s ease-in infinite;
 }
 
 #hero h4:nth-of-type(2) {
-    animation: fadeIn 18s ease-in 6s infinite;
+    animation: fadeIn 12s ease-in 4s infinite;
 }
 
 #hero h4:nth-of-type(3) {
-    animation: fadeIn 18s ease-in 12s infinite;
+    animation: fadeIn 12s ease-in 8s infinite;
 }
 
 @keyframes fadeIn {

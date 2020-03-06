@@ -68,14 +68,14 @@ const homePage = new HtmlElement({
             <h4>Rejuvinate your spirit</h4>`},
         {
             id: 'audio-section',
-            innerStrings: `<h2>Get a Spiritual Upgrade</h2>
-            <h4>Stream and Download full lectures</h4>
-            <a href="javascript:setPage('audio')">Go To Audio</a>`},
+            innerStrings: `<h2 class="fade-in">Get a Spiritual Upgrade</h2>
+            <h4  class="fade-in">Stream and Download full lectures</h4>
+            <a class="fade-in" href="javascript:setPage('audio')">Go To Audio</a>`},
         {
             id: 'inspiration-section',
-            innerStrings: `<h2>Food for the spirit</h2>
-            <a href="javascript:setPage('inspiration')">Get Inspiration</a>
-            <h4>Short Quotes and Video Clips</h4>`},
+            innerStrings: `<h2 class="fade-in">Food for the spirit</h2>
+            <a class="fade-in" href="javascript:setPage('inspiration')">Get Inspiration</a>
+            <h4 class="fade-in">Short Quotes and Video Clips</h4>`},
         {
             id: 'about-section',
             innerStrings: `<div id="book" tabindex="0">
@@ -107,7 +107,10 @@ const homePage = new HtmlElement({
             </div>`}
     ],
     tag: 'section',
-    insertTo: htmlElements.container
+    insertTo: htmlElements.container,
+    selectors: function () {
+        htmlElements.fadeIn = document.querySelectorAll('.fade-in');
+    }
 })
 
 function getStoredData() {
@@ -384,8 +387,32 @@ class Track {
 const underConstPage = new HtmlElement({
     tag: 'section',
     getString: function () {
-        const innerString = `<h2>This Page Is Under Construction</h2><h3>Check back soon</h3>`
+        const innerString = `<h2 class="fade-in">This Page Is Under Construction</h2><h3 class="fade-in">Check back soon</h3>`
         return innerString;
     },
-    insertTo: htmlElements.container
+    insertTo: htmlElements.container,
+    selectors: function () {
+        htmlElements.fadeIn = document.querySelectorAll('.fade-in');
+    }
 });
+
+const observerElements = {
+    observer: new IntersectionObserver(function (entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('observed');
+            } else {
+                entry.target.classList.remove('observed');
+            }
+        })
+    }, this.options),
+    options: {
+        threshhold: 0,
+        rootMargin: '0px',
+    },
+    activate: function () {
+        htmlElements.fadeIn.forEach(element => {
+            this.observer.observe(element)
+        })
+    }
+}
