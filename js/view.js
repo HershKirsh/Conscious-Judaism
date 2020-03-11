@@ -1,4 +1,4 @@
-var htmlElements = {
+const htmlElements = {
     stylesheet: document.getElementById('page-styles'),
     container: document.getElementById('container'),
     mainMenu: document.getElementById('main-menu')
@@ -127,7 +127,7 @@ function getStoredData() {
 
         document.addEventListener('unload', saveData)
         function saveData() {
-            const tracks = dtList.data(item => item.position)
+            const tracks = dtList.data.filter(item => item.listened === true && position > 30)
         }
     }
 }
@@ -341,11 +341,11 @@ class Track {
         if (_trackObj.position) { this.position = _trackObj.position } else { this.position = 0 };
         if (_trackObj.completed) { this.completed = true } else { this.completed = false };
     };
-    static instanceArray = [];
+    //static instanceArray = [];
+    //static currentTrack = null;
     addInstance() {
         this.constructor.instanceArray.push(this);
-    }
-    static currentTrack;
+    };
     play() {
         if (this.constructor.currentTrack) this.constructor.currentTrack.element.classList.remove('now-playing');
         this.constructor.currentTrack = this;
@@ -371,9 +371,11 @@ class Track {
         }
     }
     static next() {
+        this.currentTrack.save();
         if (this.currentTrack.index < this.instanceArray.length - 1) this.instanceArray[this.currentTrack.index + 1].play();
     }
     static prev() {
+        this.currentTrack.save();
         if (this.currentTrack.index > 0) this.instanceArray[this.currentTrack.index - 1].play();
     }
     static goToYt(link) {
@@ -381,8 +383,15 @@ class Track {
         link.href = `https://youtu.be/${this.currentTrack.ytId}?t=${parseInt(htmlElements.audio.currentTime)}`;
         link.click();
     }
+    save(completed) {
+        if (this.position > 30) {
+            this.listened = true;
+            this.position = htmlElements.audio.currentTime;  
+        }
+    }
 };
-
+Track.instanceArray = [];
+Track.currentTrack = null;
 
 const underConstPage = new HtmlElement({
     tag: 'section',

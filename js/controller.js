@@ -36,10 +36,10 @@ const renderPage = [
             let url = "https://conscious-j.herokuapp.com/recording/";
             const data = await getData(url, "GET")
             await audioSections.createElement();
-            dtList.createElement(data.filter(item => item.series == 'dt').sort((a, b) => a.number > b.number ? 1 : -1));
-            dmeList.createElement(data.filter(item => item.series == 'dme').sort((a, b) => a.number > b.number ? 1 : -1));
-            cinList.createElement(data.filter(item => item.series == 'cin').sort((a, b) => a.number > b.number ? 1 : -1));
-            hebList.createElement(data.filter(item => item.series == 'heb').sort((a, b) => a.number > b.number ? 1 : -1));
+            dtList.createElement(data.filter(item => item.series === 'dt').sort((a, b) => a.number > b.number ? 1 : -1));
+            dmeList.createElement(data.filter(item => item.series === 'dme').sort((a, b) => a.number > b.number ? 1 : -1));
+            cinList.createElement(data.filter(item => item.series === 'cin').sort((a, b) => a.number > b.number ? 1 : -1));
+            hebList.createElement(data.filter(item => item.series === 'heb').sort((a, b) => a.number > b.number ? 1 : -1));
         }
         playerElement.createElement();
     },
