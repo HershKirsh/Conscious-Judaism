@@ -131,6 +131,7 @@ section#audio-section {
     background-color: var(--main-color);
     height: 3rem;
     width: 20rem;
+    max-width: 60%;
     color: #fff;
     transition: all .3s;
     padding: 13px;
@@ -308,6 +309,10 @@ book / about section
 @media screen and (max-width: 400px) {
     #book .page {
         font-size: 11px;
+    }
+    section#audio-section {
+        background-size: 240%;
+        animation-duration: 80s;
     }
 }
 
