@@ -345,7 +345,7 @@ button#forward:before {
 }
 
 .audio-wrapper audio::-webkit-media-controls-current-time-display {
-    left: calc(50% - 40px);
+    left: calc(50% - 60px);
 }
 
 .audio-wrapper audio::-webkit-media-controls-time-remaining-display {

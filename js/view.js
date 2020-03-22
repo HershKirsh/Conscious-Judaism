@@ -185,8 +185,12 @@ const dtList = new HtmlElement({
         if (storedAudioData.data.trackData.length > 0) {
             savedData = storedAudioData.data.trackData.filter(track => track.series === "dt");
             if (savedData.length > 0) savedData.forEach(track => {
-                const updatedTrack = { ...this.data[track.number], ...track };
-                this.data.splice(track.number, 1, updatedTrack);
+                // const updatedTrack = { ...this.data[track.number], ...track };
+                // this.data.splice(track.number, 1, updatedTrack);
+                if (track.listened) this.data[track.number].listened = true;
+                if (track.completed) this.data[track.number].completed = true;
+                if (track.position > 0) this.data[track.number].position = track.position;
+                if (track.nowPlaying) this.data[track.number].nowPlaying = true;
             });
         }
         this.data.forEach((item, i) => {
@@ -221,8 +225,12 @@ const dmeList = new HtmlElement({
         if (storedAudioData.data.trackData.length > 0) {
             savedData = storedAudioData.data.trackData.filter(track => track.series === 'dme');
             if (savedData.length > 0) savedData.forEach(track => {
-                const updatedTrack = { ...this.data[track.number], ...track };
-                this.data.splice(track.number, 1, updatedTrack);
+                // const updatedTrack = { ...this.data[track.number], ...track };
+                // this.data.splice(track.number, 1, updatedTrack);
+                if (track.listened) this.data[track.number].listened = true;
+                if (track.completed) this.data[track.number].completed = true;
+                if (track.position > 0) this.data[track.number].position = track.position;
+                if (track.nowPlaying) this.data[track.number].nowPlaying = true;
             });
         }
         const currentLength = Track.instanceArray.length;
@@ -258,8 +266,12 @@ const cinList = new HtmlElement({
         if (storedAudioData.data.trackData.length > 0) {
             savedData = storedAudioData.data.trackData.filter(track => track.series === 'cin');
             if (savedData.length > 0) savedData.forEach(track => {
-                const updatedTrack = { ...this.data[track.number], ...track };
-                this.data.splice(track.number, 1, updatedTrack);
+                // const updatedTrack = { ...this.data[track.number], ...track };
+                // this.data.splice(track.number, 1, updatedTrack);
+                if (track.listened) this.data[track.number].listened = true;
+                if (track.completed) this.data[track.number].completed = true;
+                if (track.position > 0) this.data[track.number].position = track.position;
+                if (track.nowPlaying) this.data[track.number].nowPlaying = true;
             });
         }
         const currentLength = Track.instanceArray.length;
@@ -295,8 +307,12 @@ const hebList = new HtmlElement({
         if (storedAudioData.data.trackData.length > 0) {
             savedData = storedAudioData.data.trackData.filter(track => track.series === 'heb');
             if (savedData.length > 0) savedData.forEach(track => {
-                const updatedTrack = { ...this.data[track.number], ...track }
-                this.data.splice(track.number, 1, updatedTrack);
+                // const updatedTrack = { ...this.data[track.number], ...track }
+                // this.data.splice(track.number, 1, updatedTrack);
+                if (track.listened) this.data[track.number].listened = true;
+                if (track.completed) this.data[track.number].completed = true;
+                if (track.position > 0) this.data[track.number].position = track.position;
+                if (track.nowPlaying) this.data[track.number].nowPlaying = true;
             });
         }
         const currentLength = Track.instanceArray.length;
@@ -452,7 +468,17 @@ class Track {
         link.click();
     };
     static saveData() {
-        const tracks = this.instanceArray.filter(item => item.started && item.position > 29 || item.completed || item.nowPlaying).map(({ title, ytid, index, element, ...rest }) => ({ ...rest }));
+        console.log('enetered');
+        const tracks = [];
+        this.instanceArray.forEach(track => {
+            if (track.started && track.position > 29 || track.completed || track.nowPlaying) {
+                const tempTrack = { series: track.series, number: track.number, position: track.position, started: track.started }
+                if (track.completed) tempTrack.completed = true;
+                if (track.nowPlaying) tempTrack.nowPlaying = true;
+                tracks.push(tempTrack);
+            }
+        });
+        console.log(tracks)
         const audioData = { playbackSpeed: Track.speed, trackData: tracks };
         localStorage.setItem("audioData", JSON.stringify(audioData));
     }
