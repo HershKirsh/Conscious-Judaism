@@ -183,7 +183,7 @@ const dtList = new HtmlElement({
         htmlElements.dtList = document.querySelectorAll('#DT .list-item');
         htmlElements.dtListPlay = document.querySelectorAll('#DT .list-item .play');
         if (storedAudioData.data.trackData.length > 0) {
-            savedData = storedAudioData.data.trackData.filter(track => track.series === "dt");
+            const savedData = storedAudioData.data.trackData.filter(track => track.series === "dt");
             if (savedData.length > 0) savedData.forEach(track => {
                 // const updatedTrack = { ...this.data[track.number], ...track };
                 // this.data.splice(track.number, 1, updatedTrack);
@@ -223,7 +223,7 @@ const dmeList = new HtmlElement({
         htmlElements.dmeList = document.querySelectorAll('#DME .list-item');
         htmlElements.dmeListPlay = document.querySelectorAll('#DME .list-item .play');
         if (storedAudioData.data.trackData.length > 0) {
-            savedData = storedAudioData.data.trackData.filter(track => track.series === 'dme');
+            const savedData = storedAudioData.data.trackData.filter(track => track.series === 'dme');
             if (savedData.length > 0) savedData.forEach(track => {
                 // const updatedTrack = { ...this.data[track.number], ...track };
                 // this.data.splice(track.number, 1, updatedTrack);
@@ -264,7 +264,7 @@ const cinList = new HtmlElement({
         htmlElements.cinList = document.querySelectorAll('#CIN .list-item');
         htmlElements.cinListPlay = document.querySelectorAll('#CIN .list-item .play');
         if (storedAudioData.data.trackData.length > 0) {
-            savedData = storedAudioData.data.trackData.filter(track => track.series === 'cin');
+            const savedData = storedAudioData.data.trackData.filter(track => track.series === 'cin');
             if (savedData.length > 0) savedData.forEach(track => {
                 // const updatedTrack = { ...this.data[track.number], ...track };
                 // this.data.splice(track.number, 1, updatedTrack);
@@ -305,7 +305,7 @@ const hebList = new HtmlElement({
         htmlElements.hebList = document.querySelectorAll('#HEB .list-item');
         htmlElements.hebListPlay = document.querySelectorAll('#HEB .list-item .play');
         if (storedAudioData.data.trackData.length > 0) {
-            savedData = storedAudioData.data.trackData.filter(track => track.series === 'heb');
+            const savedData = storedAudioData.data.trackData.filter(track => track.series === 'heb');
             if (savedData.length > 0) savedData.forEach(track => {
                 // const updatedTrack = { ...this.data[track.number], ...track }
                 // this.data.splice(track.number, 1, updatedTrack);
