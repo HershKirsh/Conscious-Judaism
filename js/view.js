@@ -59,7 +59,7 @@ class HtmlElement {
     }
 };
 
-const homePage = new HtmlElement({
+const homePageElement = new HtmlElement({
     data: [
         {
             id: 'hero',
@@ -113,22 +113,24 @@ const homePage = new HtmlElement({
     }
 })
 
-function getStoredData() {
-    const storedData = localStorage.getItem('audioStoredData');
-    const audioData = JSON.parse(storedData)
-    if (audioData) {
-        htmlElements.speedRangeq.value = audioData.playbackSpeed;
-        audioPlayer.adjustSpeed(audioData.playbackSpeed);
-        audioPlayer.play(audioData.currentTrack);
-        audioData.dt.forEach(track => {
-            dtList.data[track.number].position = track.position;
-            if (track.complete) htmlElements.dt[track.number].classList.add('complete');
+const storedAudioData = {
+    data: {
+        trackData: []
+    },
+    getData: function () {
+        return new Promise(resolve => {
+            const storedData = localStorage.getItem('audioData');
+            if (storedData) {
+                this.data = JSON.parse(storedData)
+                htmlElements.speedRange.value = this.data.playbackSpeed;
+                audioPlayer.adjustSpeed(this.data.playbackSpeed);
+            }
+            resolve();
         })
-
-        document.addEventListener('unload', saveData)
-        function saveData() {
-            const tracks = dtList.data.filter(item => item.listened === true && position > 30)
-        }
+    },
+    setNowPlaying: function () {
+        const nowPlaying = Track.instanceArray.filter(track => track.nowPlaying);
+        nowPlaying.length > 0 ? nowPlaying[0].play(true) : Track.instanceArray[0].play(true)
     }
 }
 
@@ -176,14 +178,23 @@ const dtList = new HtmlElement({
     insertTo: function () {
         return htmlElements.sections[0];
     },
-    attributes: [{ name: "tabindex", value: 1 }],
+    attributes: [{ name: "tabindex", value: 0 }],
     selectors: function () {
         htmlElements.dtList = document.querySelectorAll('#DT .list-item');
         htmlElements.dtListPlay = document.querySelectorAll('#DT .list-item .play');
+        if (storedAudioData.data.trackData.length > 0) {
+            savedData = storedAudioData.data.trackData.filter(track => track.series === "dt");
+            if (savedData.length > 0) savedData.forEach(track => {
+                const updatedTrack = { ...this.data[track.number], ...track };
+                this.data.splice(track.number, 1, updatedTrack);
+            });
+        }
         this.data.forEach((item, i) => {
-            track = new Track(item, i)
-            track.addInstance()
-            htmlElements.dtListPlay[i].addEventListener('click', () => Track.instanceArray[i].play())
+            track = new Track(item, i);
+            if (track.started) track.element.classList.add('started');
+            if (track.completed) track.element.classList.add('completed');
+            track.addInstance();
+            htmlElements.dtListPlay[i].addEventListener('click', () => Track.instanceArray[i].play());
         })
     }
 });
@@ -203,13 +214,22 @@ const dmeList = new HtmlElement({
     insertTo: function () {
         return htmlElements.sections[1];
     },
-    attributes: [{ name: "tabindex", value: 2 }],
+    attributes: [{ name: "tabindex", value: 0 }],
     selectors: function () {
         htmlElements.dmeList = document.querySelectorAll('#DME .list-item');
         htmlElements.dmeListPlay = document.querySelectorAll('#DME .list-item .play');
+        if (storedAudioData.data.trackData.length > 0) {
+            savedData = storedAudioData.data.trackData.filter(track => track.series === 'dme');
+            if (savedData.length > 0) savedData.forEach(track => {
+                const updatedTrack = { ...this.data[track.number], ...track };
+                this.data.splice(track.number, 1, updatedTrack);
+            });
+        }
         const currentLength = Track.instanceArray.length;
         this.data.forEach((item, i) => {
             track = new Track(item, currentLength + i)
+            if (track.started) track.element.classList.add('started');
+            if (track.completed) track.element.classList.add('completed');
             track.addInstance()
             htmlElements.dmeListPlay[i].addEventListener('click', () => Track.instanceArray[currentLength + i].play())
         });
@@ -231,13 +251,22 @@ const cinList = new HtmlElement({
     insertTo: function () {
         return htmlElements.sections[2];
     },
-    attributes: [{ name: "tabindex", value: 3 }],
+    attributes: [{ name: "tabindex", value: 0 }],
     selectors: function () {
         htmlElements.cinList = document.querySelectorAll('#CIN .list-item');
         htmlElements.cinListPlay = document.querySelectorAll('#CIN .list-item .play');
+        if (storedAudioData.data.trackData.length > 0) {
+            savedData = storedAudioData.data.trackData.filter(track => track.series === 'cin');
+            if (savedData.length > 0) savedData.forEach(track => {
+                const updatedTrack = { ...this.data[track.number], ...track };
+                this.data.splice(track.number, 1, updatedTrack);
+            });
+        }
         const currentLength = Track.instanceArray.length;
         this.data.forEach((item, i) => {
             track = new Track(item, currentLength + i)
+            if (track.started) track.element.classList.add('started');
+            if (track.completed) track.element.classList.add('completed');
             track.addInstance()
             htmlElements.cinListPlay[i].addEventListener('click', () => Track.instanceArray[currentLength + i].play())
         });
@@ -259,13 +288,22 @@ const hebList = new HtmlElement({
     insertTo: function () {
         return htmlElements.sections[3];
     },
-    attributes: [{ name: "tabindex", value: 4 }],
+    attributes: [{ name: "tabindex", value: 0 }],
     selectors: function () {
         htmlElements.hebList = document.querySelectorAll('#HEB .list-item');
         htmlElements.hebListPlay = document.querySelectorAll('#HEB .list-item .play');
+        if (storedAudioData.data.trackData.length > 0) {
+            savedData = storedAudioData.data.trackData.filter(track => track.series === 'heb');
+            if (savedData.length > 0) savedData.forEach(track => {
+                const updatedTrack = { ...this.data[track.number], ...track }
+                this.data.splice(track.number, 1, updatedTrack);
+            });
+        }
         const currentLength = Track.instanceArray.length;
         this.data.forEach((item, i) => {
             track = new Track(item, currentLength + i)
+            if (track.started) track.element.classList.add('started');
+            if (track.completed) track.element.classList.add('completed');
             track.addInstance()
             htmlElements.hebListPlay[i].addEventListener('click', () => Track.instanceArray[currentLength + i].play())
         });
@@ -279,17 +317,17 @@ const playerElement = new HtmlElement({
         const innerString = `<label for="open" id="open-close-player"></label>
             <h3></h3>
             <div class="audio-wrapper">
-                <button class="skip-track" id="prev" onclick="Track.prev()"  title="play previous track">&#171;</button>
+                <button class="skip-track" id="prev" onclick="Track.prev()" title="play previous track">&#171;</button>
                 <button class="skip" id="back" onclick="audioPlayer.skipBack()" title="rewind 30 seconds">30</button>
                 <audio type="audio/mpeg"
-                    src="" controls controlsList="nodownload" onended="audioPlayer.next()">
+                    src="" controls controlsList="nodownload" ontimeupdate="Track.updatePlay(this)" onended="Track.next(true)">
                     Your browser does not support the audio element.
                 </audio>
                 <button class="skip" id="forward"  onclick="audioPlayer.skipForward()" title="forward 30 seconds">30</button>
                 <button class="skip-track" id="next" onclick="Track.next()" title="play next track">&#187;</button>
                 <div id="speed-wrapper">
                     <label for="a">Playback speed</label><br>
-                    <input type="range" id="speed-range" max="2.5" min="0.5" step="0.25" value="1" oninput="audioPlayer.adjustSpeed(this, ${this.listItemNum})">
+                    <input type="range" id="speed-range" max="2.5" min="0.5" step="0.25" value="1" oninput="audioPlayer.adjustSpeed(this.value)">
                     <br>x<output for="speed-range">1</output>
                 </div>
                 <a id="player-yt" class="btn yt" href="" onclick="Track.goToYt(this)"
@@ -313,7 +351,7 @@ const playerElement = new HtmlElement({
         newElement.id = 'open';
         newElement.type = 'checkbox';
         htmlElements.player.insertAdjacentElement('beforeBegin', newElement);
-        htmlElements.open = document.getElementById('open');
+        htmlElements.open = newElement;
     }
 });
 
@@ -325,8 +363,9 @@ const audioPlayer = {
         htmlElements.audio.currentTime += 30.0;
     },
     adjustSpeed: function (range) {
-        htmlElements.audio.playbackRate = range.value;
-        htmlElements.output.innerHTML = range.value;
+        htmlElements.audio.playbackRate = range;
+        htmlElements.output.innerHTML = range;
+        Track.speed = range;
     }
 };
 
@@ -338,22 +377,31 @@ class Track {
         this.number = _trackObj.number;
         this.index = _i;
         this.element = _trackObj.element;
-        if (_trackObj.position) { this.position = _trackObj.position } else { this.position = 0 };
-        if (_trackObj.completed) { this.completed = true } else { this.completed = false };
+        _trackObj.position ? this.position = _trackObj.position : this.position = 0;
+        if (_trackObj.nowPlaying) this.nowPlaying = true;
+        if (_trackObj.completed) this.completed = true;
+        if (_trackObj.started) this.started = true;
     };
     //static instanceArray = [];
     //static currentTrack = null;
     addInstance() {
         this.constructor.instanceArray.push(this);
     };
-    play() {
-        if (this.constructor.currentTrack) this.constructor.currentTrack.element.classList.remove('now-playing');
+    play(paused) {
+        if (this.constructor.currentTrack) {
+            this.constructor.currentTrack.nowPlaying = false;
+            this.constructor.currentTrack.element.classList.remove('now-playing');
+        };
         this.constructor.currentTrack = this;
+        this.nowPlaying = true;
+        this.started = true;
+        this.element.classList.add('started');
         this.element.classList.add('now-playing');
         htmlElements.playerTitle.innerHTML = `${this.number + 1}. ${this.title}`;
         htmlElements.audio.src = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.title}.mp3`;
         htmlElements.playerDlLink.href = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.title}.mp3`;
-        htmlElements.audio.play();
+        htmlElements.audio.currentTime = this.position;
+        if (!paused) htmlElements.audio.play();
         htmlElements.open.checked = true;
         if ('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata({
@@ -369,29 +417,50 @@ class Track {
             navigator.mediaSession.setActionHandler('previoustrack', () => this.constructor.prev());
             navigator.mediaSession.setActionHandler('nexttrack', () => this.constructor.next());
         }
-    }
-    static next() {
-        this.currentTrack.save();
+    };
+    static renderList() {
+        this.instanceArray.forEach(item => {
+            switch (item.series) {
+                case "dt":
+                    htmlElements.sections[0].appendChild(item.element);
+                    break;
+                case "dme":
+                    htmlElements.sections[1].appendChild(item.element);
+                    break;
+                case "cin":
+                    htmlElements.sections[2].appendChild(item.element);
+                    break;
+                case "heb":
+                    htmlElements.sections[3].appendChild(item.element);
+            }
+        });
+        this.currentTrack.play(true);
+    };
+    static updatePlay(e) {
+        this.currentTrack.position = e.currentTime;
+    };
+    static next(completed) {
+        if (completed) { this.currentTrack.completed = true; this.currentTrack.position = 0; this.currentTrack.element.classList.add('completed') }
         if (this.currentTrack.index < this.instanceArray.length - 1) this.instanceArray[this.currentTrack.index + 1].play();
-    }
+    };
     static prev() {
-        this.currentTrack.save();
         if (this.currentTrack.index > 0) this.instanceArray[this.currentTrack.index - 1].play();
-    }
+    };
     static goToYt(link) {
         htmlElements.audio.pause();
         link.href = `https://youtu.be/${this.currentTrack.ytId}?t=${parseInt(htmlElements.audio.currentTime)}`;
         link.click();
-    }
-    save(completed) {
-        if (this.position > 30) {
-            this.listened = true;
-            this.position = htmlElements.audio.currentTime;  
-        }
+    };
+    static saveData() {
+        const tracks = this.instanceArray.filter(item => item.started && item.position > 29 || item.completed || item.nowPlaying).map(({ title, ytid, index, element, ...rest }) => ({ ...rest }));
+        const audioData = { playbackSpeed: Track.speed, trackData: tracks };
+        localStorage.setItem("audioData", JSON.stringify(audioData));
     }
 };
+
 Track.instanceArray = [];
 Track.currentTrack = null;
+Track.speed = 1;
 
 const underConstPage = new HtmlElement({
     tag: 'section',
@@ -406,7 +475,7 @@ const underConstPage = new HtmlElement({
 });
 
 const observerElements = {
-    observer: new IntersectionObserver(function (entries, observer) {
+    observer: new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('observed');
@@ -425,3 +494,29 @@ const observerElements = {
         })
     }
 }
+
+const mutationObserverElements = {
+    observer: new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.type === "childList" && mutation.removedNodes.length > 0) {
+                mutation.removedNodes.forEach(element => {
+                    if (element.nodeType === 1) {
+                        const aud = element.querySelector('audio')
+                        if (aud) {
+                            Track.saveData();
+                        }
+                    }
+                });
+            }
+        })
+    }),
+    options: {
+        childList: true
+    },
+    activate: function (element) {
+        this.observer.observe(element, this.options);
+    }
+}
+
+mutationObserverElements.activate(htmlElements.container);
+window.addEventListener('beforeunload', () => Track.saveData());

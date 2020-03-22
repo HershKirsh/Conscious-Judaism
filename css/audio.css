@@ -106,9 +106,18 @@ input.mini:checked+section .list-item {
     align-items: center;
 }
 
-/* .list-item:focus-within {
-    background-color: #697db8d5;
-} */
+.list-item.now-playing {
+    background-color: #697db8;
+    box-shadow: 0px 0px 0px 2px #ffffff;
+}
+
+.list-item.started {
+    border-top: solid 3px #5b7fffbf;
+}
+
+.list-item.completed {
+    border-top: solid 3px #b647fbbf;
+}
 
 @keyframes slideIn {
     0% {
@@ -136,7 +145,6 @@ button.play {
     flex-grow: 1;
 }
 
-
 .list-item:focus>h3, .list-item:focus-within>h3 {
     white-space: normal;
 }
@@ -146,21 +154,71 @@ button.play {
     text-align: right;
 }
 
+.list-item.started h3::after {
+    content: '';
+    background-image: url(../assets/started.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-size: 12px;
+    position: absolute;
+    height: 14px;
+    width: 20px;
+    right: 83px;
+    top: 5px;
+    transition: all .3s;
+}
+
+.list-item.completed h3::after {
+    content: '\2713';
+    background: none;
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    right: 83px;
+    top: 5px;
+    background-color: #fff;
+    font-size: 13px;
+    color: #b647fbbf;
+    border: 1px solid;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    line-height: 1px;
+}
+
+.list-item.started h3:hover::after {
+    content: 'started';
+    z-index: 1;
+    padding-left: 50px;
+    right: 100px;
+}
+
+.list-item.completed h3:hover::after {
+    content: '\2713 completed';
+    z-index: 1;
+    padding: 0;
+    right: 140px;
+}
+
 .list-item .btns-wrapper {
     display: inline-flex;
 }
 
-.list-item.now-playing {
-    background-color: #697db8;
-    box-shadow: 0px 0px 0px 2px #ffffff;
-}
 
 .list-item.now-playing button.play {
     visibility: hidden;
     display: contents;
+    pointer-events: none;
 }
 
-.list-item.now-playing button.play:before {
+
+.list-item.now-playing h3::after{
+    display: none;
+}
+
+.list-item.now-playing button.play::before {
     display: grid;
     place-items: center;
     content: 'current track';
@@ -348,80 +406,225 @@ button#forward:before {
     .list-item h3, #player h3 {
         font-size: 16px;
     }
-
     audio {
         min-width: 90%;
         -webkit-order: -1;
-        -ms-flex-order: -1; 
+        -ms-flex-order: -1;
         order: -1;
     }
-
     #player .skip-track {
         flex-basis: 25%;
     }
-
     #player .audio-wrapper #speed-wrapper {
         margin: 20px 10px 0;
         flex-basis: 40%;
     }
-
     header h1 {
         font-size: 22px
     }
 }
 
-
 /*****************
 list-item slide-in
 animation delays
 ******************/
-section .list-item:nth-of-type(1) {animation-delay: 0.1s}
-section .list-item:nth-of-type(2) {animation-delay: 0.2s}
-section .list-item:nth-of-type(3) {animation-delay: 0.3s}
-section .list-item:nth-of-type(4) {animation-delay: 0.4s}
-section .list-item:nth-of-type(5) {animation-delay: 0.5s}
-section .list-item:nth-of-type(6) {animation-delay: 0.6s}
-section .list-item:nth-of-type(7) {animation-delay: 0.7s}
-section .list-item:nth-of-type(8) {animation-delay: 0.8s}
-section .list-item:nth-of-type(9) {animation-delay: 0.9s}
-section .list-item:nth-of-type(10) {animation-delay: 1s}
-section .list-item:nth-of-type(11) {animation-delay: 1.1s}
-section .list-item:nth-of-type(12) {animation-delay: 1.2s}
-section .list-item:nth-of-type(13) {animation-delay: 1.3s}
-section .list-item:nth-of-type(14) {animation-delay: 1.4s}
-section .list-item:nth-of-type(15) {animation-delay: 1.5s}
-section .list-item:nth-of-type(16) {animation-delay: 1.6s}
-section .list-item:nth-of-type(17) {animation-delay: 1.7s}
-section .list-item:nth-of-type(18) {animation-delay: 1.8s}
-section .list-item:nth-of-type(19) {animation-delay: 1.9s}
-section .list-item:nth-of-type(20) {animation-delay: 2s}
-section .list-item:nth-of-type(21) {animation-delay: 2.1s}
-section .list-item:nth-of-type(22) {animation-delay: 2.2s}
-section .list-item:nth-of-type(23) {animation-delay: 2.3s}
-section .list-item:nth-of-type(24) {animation-delay: 2.4s}
-section .list-item:nth-of-type(25) {animation-delay: 2.5s}
-section .list-item:nth-of-type(26) {animation-delay: 2.6s}
-section .list-item:nth-of-type(27) {animation-delay: 2.7s}
-section .list-item:nth-of-type(28) {animation-delay: 2.8s}
-section .list-item:nth-of-type(29) {animation-delay: 2.9s}
-section .list-item:nth-of-type(30) {animation-delay: 3s}
-section .list-item:nth-of-type(31) {animation-delay: 3.1s}
-section .list-item:nth-of-type(32) {animation-delay: 3.2s}
-section .list-item:nth-of-type(33) {animation-delay: 3.3s}
-section .list-item:nth-of-type(34) {animation-delay: 3.4s}
-section .list-item:nth-of-type(35) {animation-delay: 3.5s}
-section .list-item:nth-of-type(36) {animation-delay: 3.6s}
-section .list-item:nth-of-type(37) {animation-delay: 3.7s}
-section .list-item:nth-of-type(38) {animation-delay: 3.8s}
-section .list-item:nth-of-type(39) {animation-delay: 3.9s}
-section .list-item:nth-of-type(40) {animation-delay: 4s}
-section .list-item:nth-of-type(41) {animation-delay: 4.1s}
-section .list-item:nth-of-type(42) {animation-delay: 4.2s}
-section .list-item:nth-of-type(43) {animation-delay: 4.3s}
-section .list-item:nth-of-type(44) {animation-delay: 4.4s}
-section .list-item:nth-of-type(45) {animation-delay: 4.5s}
-section .list-item:nth-of-type(46) {animation-delay: 4.6s}
-section .list-item:nth-of-type(47) {animation-delay: 4.7s}
-section .list-item:nth-of-type(48) {animation-delay: 4.8s}
-section .list-item:nth-of-type(49) {animation-delay: 4.9s}
-section .list-item:nth-of-type(50) {animation-delay: 5s}
+
+section .list-item:nth-of-type(1) {
+    animation-delay: 0.1s
+}
+
+section .list-item:nth-of-type(2) {
+    animation-delay: 0.2s
+}
+
+section .list-item:nth-of-type(3) {
+    animation-delay: 0.3s
+}
+
+section .list-item:nth-of-type(4) {
+    animation-delay: 0.4s
+}
+
+section .list-item:nth-of-type(5) {
+    animation-delay: 0.5s
+}
+
+section .list-item:nth-of-type(6) {
+    animation-delay: 0.6s
+}
+
+section .list-item:nth-of-type(7) {
+    animation-delay: 0.7s
+}
+
+section .list-item:nth-of-type(8) {
+    animation-delay: 0.8s
+}
+
+section .list-item:nth-of-type(9) {
+    animation-delay: 0.9s
+}
+
+section .list-item:nth-of-type(10) {
+    animation-delay: 1s
+}
+
+section .list-item:nth-of-type(11) {
+    animation-delay: 1.1s
+}
+
+section .list-item:nth-of-type(12) {
+    animation-delay: 1.2s
+}
+
+section .list-item:nth-of-type(13) {
+    animation-delay: 1.3s
+}
+
+section .list-item:nth-of-type(14) {
+    animation-delay: 1.4s
+}
+
+section .list-item:nth-of-type(15) {
+    animation-delay: 1.5s
+}
+
+section .list-item:nth-of-type(16) {
+    animation-delay: 1.6s
+}
+
+section .list-item:nth-of-type(17) {
+    animation-delay: 1.7s
+}
+
+section .list-item:nth-of-type(18) {
+    animation-delay: 1.8s
+}
+
+section .list-item:nth-of-type(19) {
+    animation-delay: 1.9s
+}
+
+section .list-item:nth-of-type(20) {
+    animation-delay: 2s
+}
+
+section .list-item:nth-of-type(21) {
+    animation-delay: 2.1s
+}
+
+section .list-item:nth-of-type(22) {
+    animation-delay: 2.2s
+}
+
+section .list-item:nth-of-type(23) {
+    animation-delay: 2.3s
+}
+
+section .list-item:nth-of-type(24) {
+    animation-delay: 2.4s
+}
+
+section .list-item:nth-of-type(25) {
+    animation-delay: 2.5s
+}
+
+section .list-item:nth-of-type(26) {
+    animation-delay: 2.6s
+}
+
+section .list-item:nth-of-type(27) {
+    animation-delay: 2.7s
+}
+
+section .list-item:nth-of-type(28) {
+    animation-delay: 2.8s
+}
+
+section .list-item:nth-of-type(29) {
+    animation-delay: 2.9s
+}
+
+section .list-item:nth-of-type(30) {
+    animation-delay: 3s
+}
+
+section .list-item:nth-of-type(31) {
+    animation-delay: 3.1s
+}
+
+section .list-item:nth-of-type(32) {
+    animation-delay: 3.2s
+}
+
+section .list-item:nth-of-type(33) {
+    animation-delay: 3.3s
+}
+
+section .list-item:nth-of-type(34) {
+    animation-delay: 3.4s
+}
+
+section .list-item:nth-of-type(35) {
+    animation-delay: 3.5s
+}
+
+section .list-item:nth-of-type(36) {
+    animation-delay: 3.6s
+}
+
+section .list-item:nth-of-type(37) {
+    animation-delay: 3.7s
+}
+
+section .list-item:nth-of-type(38) {
+    animation-delay: 3.8s
+}
+
+section .list-item:nth-of-type(39) {
+    animation-delay: 3.9s
+}
+
+section .list-item:nth-of-type(40) {
+    animation-delay: 4s
+}
+
+section .list-item:nth-of-type(41) {
+    animation-delay: 4.1s
+}
+
+section .list-item:nth-of-type(42) {
+    animation-delay: 4.2s
+}
+
+section .list-item:nth-of-type(43) {
+    animation-delay: 4.3s
+}
+
+section .list-item:nth-of-type(44) {
+    animation-delay: 4.4s
+}
+
+section .list-item:nth-of-type(45) {
+    animation-delay: 4.5s
+}
+
+section .list-item:nth-of-type(46) {
+    animation-delay: 4.6s
+}
+
+section .list-item:nth-of-type(47) {
+    animation-delay: 4.7s
+}
+
+section .list-item:nth-of-type(48) {
+    animation-delay: 4.8s
+}
+
+section .list-item:nth-of-type(49) {
+    animation-delay: 4.9s
+}
+
+section .list-item:nth-of-type(50) {
+    animation-delay: 5s
+}
