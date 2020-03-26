@@ -1,4 +1,7 @@
+/* prefixed by https://autoprefixer.github.io (PostCSS: v7.0.26, autoprefixer: v9.7.3) */
+
 body {
+    background-image: url(../assets/blueprint.jpg), url(../assets/under_const.jpg), -o-linear-gradient(45deg, #3e76ca, pink);
     background-image: url(../assets/blueprint.jpg), url(../assets/under_const.jpg), linear-gradient(45deg, #3e76ca, pink);
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -10,7 +13,12 @@ li#about {
 }
 
 section {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     text-align: left;
     padding-left: 10vw;

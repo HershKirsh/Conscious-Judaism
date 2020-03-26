@@ -1,7 +1,16 @@
+/* prefixed by https://autoprefixer.github.io (PostCSS: v7.0.26, autoprefixer: v9.7.3) */
+
 body {
     background-image: url(../assets/bg4-double_b-w.jpg);
     background-repeat: repeat-x;
+    -webkit-animation: clouds 200s linear infinite;
     animation: clouds 200s linear infinite;
+}
+
+@-webkit-keyframes clouds {
+    100% {
+        background-position-x: 1000%;
+    }
 }
 
 @keyframes clouds {
@@ -19,6 +28,7 @@ body {
 }
 
 #main-menu li i:before {
+    -webkit-box-shadow: 0 0 2px 3px var(--main-color);
     box-shadow: 0 0 2px 3px var(--main-color);
 }
 
@@ -42,8 +52,14 @@ section {
 *****************/
 
 section#hero {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
 }
 
@@ -60,15 +76,33 @@ section#hero {
 }
 
 #hero h4:nth-of-type(1) {
+    -webkit-animation: fadeIn 12s ease-in infinite;
     animation: fadeIn 12s ease-in infinite;
 }
 
 #hero h4:nth-of-type(2) {
+    -webkit-animation: fadeIn 12s ease-in 4s infinite;
     animation: fadeIn 12s ease-in 4s infinite;
 }
 
 #hero h4:nth-of-type(3) {
+    -webkit-animation: fadeIn 12s ease-in 8s infinite;
     animation: fadeIn 12s ease-in 8s infinite;
+}
+
+@-webkit-keyframes fadeIn {
+    10% {
+        opacity: 1;
+    }
+    30% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0
+    }
 }
 
 @keyframes fadeIn {
@@ -96,11 +130,25 @@ section#audio-section {
     background-size: 110%;
     background-repeat: repeat-x;
     background-position: 0% 50%;
+    -webkit-animation: soundwaves 10s linear infinite;
     animation: soundwaves 10s linear infinite;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     /* opacity: .7; */
+}
+
+@-webkit-keyframes soundwaves {
+    100% {
+        background-position-x: 1000%;
+    }
 }
 
 @keyframes soundwaves {
@@ -133,9 +181,12 @@ section#audio-section {
     width: 20rem;
     max-width: 60%;
     color: #fff;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
     transition: all .3s;
     padding: 13px;
     text-decoration: none;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-family: var(--main-font);
 }
@@ -165,9 +216,15 @@ book / about section
 *****************/
 
 #about-section {
+    display: -ms-grid;
     display: grid;
+    -webkit-perspective: 5000px;
     perspective: 5000px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    background-image: url(../assets/puzzle.jpg), -webkit-gradient(linear, left top, right top, from(white), to(black));
+    background-image: url(../assets/puzzle.jpg), -o-linear-gradient(left, white, black);
     background-image: url(../assets/puzzle.jpg), linear-gradient(90deg, white, black);
     background-size: cover;
     background-repeat: no-repeat;
@@ -176,24 +233,38 @@ book / about section
 }
 
 #book {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     margin: auto;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-perspective: 3000px;
     perspective: 3000px;
     cursor: pointer;
+    -webkit-transform: rotateX(40deg);
     transform: rotateX(40deg);
+    -webkit-transition: all 1s;
+    -o-transition: all 1s;
     transition: all 1s;
 }
 
 #book:focus {
     outline: none;
+    -webkit-transform-origin: 0% 50%;
+    -ms-transform-origin: 0% 50%;
     transform-origin: 0% 50%;
+    -webkit-transform: rotateX(40deg) translateX(50%);
     transform: rotateX(40deg) translateX(50%);
     pointer-events: none;
 }
 
 #cover {
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
@@ -203,9 +274,21 @@ book / about section
 }
 
 #book:focus>#cover {
+    -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg);
+    -webkit-animation: index 800ms linear forwards;
     animation: index 800ms linear forwards;
+    -webkit-backface-visibility: visible;
     backface-visibility: visible;
+}
+
+@-webkit-keyframes index {
+    50% {
+        z-index: 1;
+    }
+    100% {
+        z-index: -1;
+    }
 }
 
 @keyframes index {
@@ -218,12 +301,18 @@ book / about section
 }
 
 #book:focus>#first-page, #book:focus>#backside {
+    -webkit-transition-delay: .4s;
+    -o-transition-delay: .4s;
     transition-delay: .4s;
+    -webkit-transform: rotateY(-160deg);
     transform: rotateY(-160deg);
 }
 
 #book:focus>#second-page {
+    -webkit-transition-delay: .6s;
+    -o-transition-delay: .6s;
     transition-delay: .6s;
+    -webkit-transform: rotateY(-20deg);
     transform: rotateY(-20deg);
 }
 
@@ -237,10 +326,16 @@ book / about section
     color: #000;
     padding: 1.5em;
     text-align: justify;
+    -webkit-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
     transform-origin: 0 100%;
     border-radius: 0 5px 5px 0;
+    -webkit-box-shadow: inset -3px 0px 20px rgba(0, 0, 0, 0.2), 0px 0px 15px rgba(0, 0, 0, 0.1);
     box-shadow: inset -3px 0px 20px rgba(0, 0, 0, 0.2), 0px 0px 15px rgba(0, 0, 0, 0.1);
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    -webkit-transition: all 1s;
+    -o-transition: all 1s;
     transition: all 1s;
 }
 
@@ -252,7 +347,9 @@ book / about section
     max-width: 360px;
     height: calc(70vh + 8px);
     margin-left: 6px;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    -webkit-box-shadow: 2px 2px 4px 3px #9b9797a6;
     box-shadow: 2px 2px 4px 3px #9b9797a6;
 }
 
@@ -266,22 +363,35 @@ book / about section
 }
 
 #first-page {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
     justify-content: flex-end;
 }
 
 #first-page img {
     width: 30%;
+    -webkit-filter: sepia(1);
     filter: sepia(1);
 }
 
 #first-page * {
+    -webkit-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
     transform: scaleX(-1);
 }
 
 #backside {
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
@@ -299,6 +409,7 @@ book / about section
         font-size: 30px;
     }
     #book {
+        -webkit-perspective: 5000px;
         perspective: 5000px;
     }
     #book .page {
@@ -312,6 +423,7 @@ book / about section
     }
     section#audio-section {
         background-size: 240%;
+        -webkit-animation-duration: 80s;
         animation-duration: 80s;
     }
 }
