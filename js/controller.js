@@ -2,7 +2,7 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
 };
 
-const currentPage = window.location.href.split(/(consciousjudaism.com\/)/).pop();
+let currentPage = location.pathname.replace("/", "");
 const pageArray = [];
 
 class Page {
@@ -10,12 +10,15 @@ class Page {
         this.name = _obj.name;
         this.render = _obj.render;
         if (_obj.pushState) { this.pushState = _obj.pushState } else { this.pushState = _obj.name };
+        if (_obj.stylesheet) this.stylesheet = _obj.stylesheet;
         const newObj = { name: _obj.name, page: this }
         pageArray.push(newObj)
     }
-    setPage() {
-        htmlElements.stylesheet.href = `css/${this.name}.css`;
-        history.pushState(null, null, '/' + this.pushState);
+    setPage(noPushState) {
+        this.stylesheet ? htmlElements.stylesheet.href = `css/${this.stylesheet}.css` : htmlElements.stylesheet.href = `css/${this.name}.css`;
+        console.log('page set id to:' + this.name);
+        if (!noPushState) history.pushState({id: this.name}, null, '/' + this.pushState);
+        console.log(history.state);
         this.render();
     }
 }
@@ -32,8 +35,6 @@ const homePage = new Page({
 const audioPage = new Page({
     name: 'audio',
     render: async function () {
-        htmlElements.stylesheet.href = "css/audio.css";
-        history.pushState(null, null, 'audio');
         playerElement.createElement();
         if (dtList.data) {
             await audioSections.createElement();
@@ -55,11 +56,10 @@ const audioPage = new Page({
 const inspirationPage = new Page({
     name: 'inspiration',
     render: function () {
-        htmlElements.stylesheet.href = "css/under-const.css";
-        history.pushState(null, null, 'inspiration');
         underConstPage.createElement();
         observerElements.activate();
     },
+    stylesheet: 'under-const'
 });
 
 let currentPageObj = [];
@@ -67,8 +67,18 @@ currentPageObj = pageArray.filter(page => page.name === currentPage);
 if (currentPageObj.length === 0) currentPageObj.push(pageArray[0])
 
 function setPage(newPage) {
-    if (newPage) currentPageObj = pageArray.filter(page => page.name === newPage)
+    if (newPage) currentPageObj = pageArray.filter(page => page.name === newPage);
     htmlElements.container.innerHTML = "";
     currentPageObj[0].page.setPage();
 }
+
+window.addEventListener("popstate", function (e) {
+    //const currentPage = window.location.pathname.replace("/", "");
+    currentPage = e.state.id;
+    console.log(currentPage);
+    currentPageObj = pageArray.filter(page => page.name === currentPage);
+    htmlElements.container.innerHTML = "";
+    currentPageObj[0].page.setPage(true);
+})
+
 currentPageObj[0].page.setPage();

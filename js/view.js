@@ -468,7 +468,6 @@ class Track {
         link.click();
     };
     static saveData() {
-        console.log('enetered');
         const tracks = [];
         this.instanceArray.forEach(track => {
             if (track.started && track.position > 29 || track.completed || track.nowPlaying) {
@@ -478,7 +477,6 @@ class Track {
                 tracks.push(tempTrack);
             }
         });
-        console.log(tracks)
         const audioData = { playbackSpeed: Track.speed, trackData: tracks };
         localStorage.setItem("audioData", JSON.stringify(audioData));
     }
