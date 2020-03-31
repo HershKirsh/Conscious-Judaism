@@ -2,8 +2,16 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
 };
 
-let currentPage = location.pathname.replace("/", "");
-const pageArray = [];
+const pageSettingElements = {
+    pageArray: [],
+    currentPage: [],
+    setPage: function (newPage, noPushState) {
+        if (newPage) this.currentPage = this.pageArray.filter(page => page.name === newPage);
+        if (this.currentPage < 1) this.currentPage.push(homePage);
+        htmlElements.container.innerHTML = "";
+        this.currentPage[0].setPage(noPushState);
+    }
+}
 
 class Page {
     constructor(_obj) {
@@ -11,13 +19,12 @@ class Page {
         this.render = _obj.render;
         if (_obj.pushState) { this.pushState = _obj.pushState } else { this.pushState = _obj.name };
         if (_obj.stylesheet) this.stylesheet = _obj.stylesheet;
-        const newObj = { name: _obj.name, page: this }
-        pageArray.push(newObj)
+        pageSettingElements.pageArray.push(this);
     }
     setPage(noPushState) {
         this.stylesheet ? htmlElements.stylesheet.href = `css/${this.stylesheet}.css` : htmlElements.stylesheet.href = `css/${this.name}.css`;
         console.log('page set id to:' + this.name);
-        if (!noPushState) history.pushState({id: this.name}, null, '/' + this.pushState);
+        if (!noPushState) history.pushState({ id: this.name }, null, '/' + this.pushState);
         console.log(history.state);
         this.render();
     }
@@ -62,23 +69,5 @@ const inspirationPage = new Page({
     stylesheet: 'under-const'
 });
 
-let currentPageObj = [];
-currentPageObj = pageArray.filter(page => page.name === currentPage);
-if (currentPageObj.length === 0) currentPageObj.push(pageArray[0])
-
-function setPage(newPage) {
-    if (newPage) currentPageObj = pageArray.filter(page => page.name === newPage);
-    htmlElements.container.innerHTML = "";
-    currentPageObj[0].page.setPage();
-}
-
-window.addEventListener("popstate", function (e) {
-    //const currentPage = window.location.pathname.replace("/", "");
-    currentPage = e.state.id;
-    console.log(currentPage);
-    currentPageObj = pageArray.filter(page => page.name === currentPage);
-    htmlElements.container.innerHTML = "";
-    currentPageObj[0].page.setPage(true);
-})
-
-currentPageObj[0].page.setPage();
+window.addEventListener("popstate", (e) => pageSettingElements.setPage(e.state.id, true))
+pageSettingElements.setPage(location.pathname.replace("/", ""));

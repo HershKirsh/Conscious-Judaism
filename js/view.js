@@ -70,11 +70,11 @@ const homePageElement = new HtmlElement({
             id: 'audio-section',
             innerStrings: `<h2 class="fade-in">Get a Spiritual Upgrade</h2>
             <h4  class="fade-in">Stream and Download full lectures</h4>
-            <a class="fade-in" href="javascript:setPage('audio')">Go To Audio</a>`},
+            <a class="fade-in" href="javascript:pageSettingElements.setPage('audio')">Go To Audio</a>`},
         {
             id: 'inspiration-section',
             innerStrings: `<h2 class="fade-in">Food for the spirit</h2>
-            <a class="fade-in" href="javascript:setPage('inspiration')">Get Inspiration</a>
+            <a class="fade-in" href="javascript:pageSettingElements.setPage('inspiration')">Get Inspiration</a>
             <h4 class="fade-in">Short Quotes and Video Clips</h4>`},
         {
             id: 'about-section',
