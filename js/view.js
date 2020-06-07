@@ -1,7 +1,8 @@
 const htmlElements = {
     stylesheet: document.getElementById('page-styles'),
     container: document.getElementById('container'),
-    mainMenu: document.getElementById('main-menu')
+    mainMenu: document.getElementById('main-menu'),
+    pageTitle: document.querySelector('title')
 };
 
 class HtmlElement {
@@ -32,7 +33,7 @@ class HtmlElement {
                         newElement.innerHTML = textNode;
                     };
                     if (typeof this.insertTo === "function") {
-                        const insertToElem = this.insertTo();
+                        const insertToElem = this.insertTo(item);
                         insertToElem.insertAdjacentElement('beforeend', newElement);
                     } else {
                         this.insertTo.insertAdjacentElement('beforeend', newElement);
@@ -70,11 +71,11 @@ const homePageElement = new HtmlElement({
             id: 'audio-section',
             innerStrings: `<h2 class="fade-in">Get a Spiritual Upgrade</h2>
             <h4  class="fade-in">Stream and Download full lectures</h4>
-            <a class="fade-in" href="javascript:pageSettingElements.setPage('audio')">Go To Audio</a>`},
+            <a class="fade-in" href="/audio" onclick="pageSettingElements.setPage(event, 'audio')">Go To Audio</a>`},
         {
             id: 'inspiration-section',
             innerStrings: `<h2 class="fade-in">Food for the spirit</h2>
-            <a class="fade-in" href="javascript:pageSettingElements.setPage('inspiration')">Get Inspiration</a>
+            <a class="fade-in" href="/inspiration"  onclick="pageSettingElements.setPage(event, 'inspiration')">Get Inspiration</a>
             <h4 class="fade-in">Short Quotes and Video Clips</h4>`},
         {
             id: 'about-section',
@@ -135,18 +136,12 @@ const storedAudioData = {
 }
 
 const audioSections = new HtmlElement({
-    data: [
-        { id: 'DT', header: 'Conscious Judaism Series', description: 'Recordings on Sefer Dover Tzedek from Reb Tzodok HaCohen of Lublin' },
-        { id: 'DME', header: 'Conscious Chassidus Series', description: 'Recordings on Sefer Degel Machaneh Ephraim' },
-        { id: 'CIN', header: 'Conscious In Nature Series', description: 'Insights conveyed while surrounded by nature' },
-        { id: 'HEB', header: 'נשמת ישראל', description: 'שיעורים בעברית' }
-    ],
     tag: 'section',
     class: 'series',
     insertTo: htmlElements.container,
     getString: function (item, i) {
-        const innerString = `<label for="minimize${item.id}" class="minimize" title="Minimize"></label><div class="subheader-wrapper">
-                <h2>${item.header}</h2>
+        const innerString = `<label for="minimize${item.series}" class="minimize" title="Minimize"></label><div class="subheader-wrapper">
+                <h2>${item.title}</h2>
                 <h4>${item.description}</h4>
                 </div>`
         return innerString;
@@ -156,14 +151,14 @@ const audioSections = new HtmlElement({
         htmlElements.sections.forEach((item, i) => {
             const newElement = document.createElement('input');
             newElement.classList.add('invisible', 'mini');
-            newElement.id = 'minimize' + this.data[i].id;
+            newElement.id = 'minimize' + this.data[i].series;
             newElement.type = 'checkbox';
             item.insertAdjacentElement('beforeBegin', newElement);
         })
     }
 });
 
-const dtList = new HtmlElement({
+const trackList = new HtmlElement({
     tag: 'div',
     class: 'list-item',
     getString: function (item) {
@@ -175,15 +170,15 @@ const dtList = new HtmlElement({
             </div>`;
         return innerString;
     },
-    insertTo: function () {
-        return htmlElements.sections[0];
+    insertTo: function (track) {
+        return document.getElementById(track.series);
     },
     attributes: [{ name: "tabindex", value: 0 }],
     selectors: function () {
-        htmlElements.dtList = document.querySelectorAll('#DT .list-item');
-        htmlElements.dtListPlay = document.querySelectorAll('#DT .list-item .play');
+        htmlElements.trackList = document.querySelectorAll('.list-item');
+        htmlElements.trackListPlay = document.querySelectorAll('.list-item .play');
         if (storedAudioData.data.trackData.length > 0) {
-            const savedData = storedAudioData.data.trackData.filter(track => track.series === "dt");
+            const savedData = storedAudioData.data.trackData;
             if (savedData.length > 0) savedData.forEach(track => {
                 // const updatedTrack = { ...this.data[track.number], ...track };
                 // this.data.splice(track.number, 1, updatedTrack);
@@ -198,131 +193,8 @@ const dtList = new HtmlElement({
             if (track.started) track.element.classList.add('started');
             if (track.completed) track.element.classList.add('completed');
             track.addInstance();
-            htmlElements.dtListPlay[i].addEventListener('click', () => Track.instanceArray[i].play());
+            htmlElements.trackListPlay[i].addEventListener('click', () => Track.instanceArray[i].play());
         })
-    }
-});
-
-const dmeList = new HtmlElement({
-    tag: 'div',
-    class: 'list-item',
-    getString: function (item) {
-        const innerString = `<button class="btn play")">&#9654;</button><h3 title="Uploaded: ${new Date(item.date).toLocaleString(undefined, { year: "numeric", month: "long", day: "numeric" })}">${item.number + 1}. ${item.title}</h3>
-            <div class="btns-wrapper">
-                <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
-                    title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
-                <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
-            </div>`;
-        return innerString;
-    },
-    insertTo: function () {
-        return htmlElements.sections[1];
-    },
-    attributes: [{ name: "tabindex", value: 0 }],
-    selectors: function () {
-        htmlElements.dmeList = document.querySelectorAll('#DME .list-item');
-        htmlElements.dmeListPlay = document.querySelectorAll('#DME .list-item .play');
-        if (storedAudioData.data.trackData.length > 0) {
-            const savedData = storedAudioData.data.trackData.filter(track => track.series === 'dme');
-            if (savedData.length > 0) savedData.forEach(track => {
-                // const updatedTrack = { ...this.data[track.number], ...track };
-                // this.data.splice(track.number, 1, updatedTrack);
-                if (track.listened) this.data[track.number].listened = true;
-                if (track.completed) this.data[track.number].completed = true;
-                if (track.position > 0) this.data[track.number].position = track.position;
-                if (track.nowPlaying) this.data[track.number].nowPlaying = true;
-            });
-        }
-        const currentLength = Track.instanceArray.length;
-        this.data.forEach((item, i) => {
-            track = new Track(item, currentLength + i)
-            if (track.started) track.element.classList.add('started');
-            if (track.completed) track.element.classList.add('completed');
-            track.addInstance()
-            htmlElements.dmeListPlay[i].addEventListener('click', () => Track.instanceArray[currentLength + i].play())
-        });
-    }
-});
-
-const cinList = new HtmlElement({
-    tag: 'div',
-    class: 'list-item',
-    getString: function (item) {
-        const innerString = `<button class="btn play">&#9654;</button><h3 title="Uploaded: ${new Date(item.date).toLocaleString(undefined, { year: "numeric", month: "long", day: "numeric" })}">${item.number + 1}. ${item.title}</h3>
-            <div class="btns-wrapper">
-                <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
-                    title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
-                <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
-            </div>`;
-        return innerString;
-    },
-    insertTo: function () {
-        return htmlElements.sections[2];
-    },
-    attributes: [{ name: "tabindex", value: 0 }],
-    selectors: function () {
-        htmlElements.cinList = document.querySelectorAll('#CIN .list-item');
-        htmlElements.cinListPlay = document.querySelectorAll('#CIN .list-item .play');
-        if (storedAudioData.data.trackData.length > 0) {
-            const savedData = storedAudioData.data.trackData.filter(track => track.series === 'cin');
-            if (savedData.length > 0) savedData.forEach(track => {
-                // const updatedTrack = { ...this.data[track.number], ...track };
-                // this.data.splice(track.number, 1, updatedTrack);
-                if (track.listened) this.data[track.number].listened = true;
-                if (track.completed) this.data[track.number].completed = true;
-                if (track.position > 0) this.data[track.number].position = track.position;
-                if (track.nowPlaying) this.data[track.number].nowPlaying = true;
-            });
-        }
-        const currentLength = Track.instanceArray.length;
-        this.data.forEach((item, i) => {
-            track = new Track(item, currentLength + i)
-            if (track.started) track.element.classList.add('started');
-            if (track.completed) track.element.classList.add('completed');
-            track.addInstance()
-            htmlElements.cinListPlay[i].addEventListener('click', () => Track.instanceArray[currentLength + i].play())
-        });
-    }
-});
-
-const hebList = new HtmlElement({
-    tag: 'div',
-    class: 'list-item',
-    getString: function (item) {
-        const innerString = `<button class="btn play">&#9654;</button><h3 title="Uploaded: ${new Date(item.date).toLocaleString(undefined, { year: "numeric", month: "long", day: "numeric" })}">${item.number + 1}. ${item.title}</h3>
-            <div class="btns-wrapper">
-                <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
-                    title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
-                <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
-            </div>`;
-        return innerString;
-    },
-    insertTo: function () {
-        return htmlElements.sections[3];
-    },
-    attributes: [{ name: "tabindex", value: 0 }],
-    selectors: function () {
-        htmlElements.hebList = document.querySelectorAll('#HEB .list-item');
-        htmlElements.hebListPlay = document.querySelectorAll('#HEB .list-item .play');
-        if (storedAudioData.data.trackData.length > 0) {
-            const savedData = storedAudioData.data.trackData.filter(track => track.series === 'heb');
-            if (savedData.length > 0) savedData.forEach(track => {
-                // const updatedTrack = { ...this.data[track.number], ...track }
-                // this.data.splice(track.number, 1, updatedTrack);
-                if (track.listened) this.data[track.number].listened = true;
-                if (track.completed) this.data[track.number].completed = true;
-                if (track.position > 0) this.data[track.number].position = track.position;
-                if (track.nowPlaying) this.data[track.number].nowPlaying = true;
-            });
-        }
-        const currentLength = Track.instanceArray.length;
-        this.data.forEach((item, i) => {
-            track = new Track(item, currentLength + i)
-            if (track.started) track.element.classList.add('started');
-            if (track.completed) track.element.classList.add('completed');
-            track.addInstance()
-            htmlElements.hebListPlay[i].addEventListener('click', () => Track.instanceArray[currentLength + i].play())
-        });
     }
 });
 
@@ -331,7 +203,9 @@ const playerElement = new HtmlElement({
     id: 'player',
     getString: function () {
         const innerString = `<label for="open" id="open-close-player"></label>
+            <button id="toggle-driving-mode" onclick="this.parentElement.classList.toggle('driving-mode')"></button>
             <h3></h3>
+            <button id="play-pause" onclick="audioPlayer.togglePlay(this)">&#9654</button>
             <div class="audio-wrapper">
                 <button class="skip-track" id="prev" onclick="Track.prev()" title="play previous track">&#171;</button>
                 <button class="skip" id="back" onclick="audioPlayer.skipBack()" title="rewind 30 seconds">30</button>
@@ -342,9 +216,13 @@ const playerElement = new HtmlElement({
                 <button class="skip" id="forward"  onclick="audioPlayer.skipForward()" title="forward 30 seconds">30</button>
                 <button class="skip-track" id="next" onclick="Track.next()" title="play next track">&#187;</button>
                 <div id="speed-wrapper">
-                    <label for="a">Playback speed</label><br>
-                    <input type="range" id="speed-range" max="2.5" min="0.5" step="0.25" value="1" oninput="audioPlayer.adjustSpeed(this.value)">
+                    <button class="playback-speed-btn" id="slower" onclick="audioPlayer.adjustSpeed(this.nextElementSibling.children[2].value - 0.25, true)">-</button>
+                    <div>
+                    <label for="speed-range">Playback speed</label><br>
+                    <input type="range" id="speed-range" max="2.5" min="0.5" step="0.25" value="1" onchange="audioPlayer.adjustSpeed(this.value)">
                     <br>x<output for="speed-range">1</output>
+                    </div>
+                    <button class="playback-speed-btn" id="faster" onclick="audioPlayer.adjustSpeed(Number(document.querySelector('#speed-range').value) + 0.25, true)">+</button>
                 </div>
                 <a id="player-yt" class="btn yt" href="" onclick="Track.goToYt(this)"
                     title="Continue this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
@@ -355,6 +233,7 @@ const playerElement = new HtmlElement({
     insertTo: htmlElements.container,
     attributes: [{ name: "tabindex", value: 1 }],
     selectors: function () {
+        htmlElements.playPause = document.getElementById('play-pause');
         htmlElements.playerYtLink = document.getElementById('player-yt');
         htmlElements.player = document.getElementById('player');
         htmlElements.playerDlLink = document.getElementById('player-dl');
@@ -378,10 +257,20 @@ const audioPlayer = {
     skipForward: function () {
         htmlElements.audio.currentTime += 30.0;
     },
-    adjustSpeed: function (range) {
+    adjustSpeed: function (range, outsideTrigger) {
+        if (outsideTrigger) htmlElements.speedRange.value = range;
         htmlElements.audio.playbackRate = range;
         htmlElements.output.innerHTML = range;
         Track.speed = range;
+    },
+    togglePlay: function (button) {
+        if (htmlElements.audio.paused) {
+            htmlElements.audio.play();
+            button.innerHTML = '&#10074;&#10074;';
+        } else {
+            htmlElements.audio.pause();
+            button.innerHTML = '&#9654';
+        }
     }
 };
 
@@ -417,6 +306,7 @@ class Track {
         htmlElements.audio.src = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.title}.mp3`;
         htmlElements.playerDlLink.href = `https://consciousj.s3.us-east-2.amazonaws.com/audio/${this.title}.mp3`;
         htmlElements.audio.currentTime = this.position;
+        htmlElements.audio.playbackRate = this.constructor.speed;
         if (!paused) htmlElements.audio.play();
         htmlElements.open.checked = true;
         if ('mediaSession' in navigator) {
@@ -436,24 +326,15 @@ class Track {
     };
     static renderList() {
         this.instanceArray.forEach(item => {
-            switch (item.series) {
-                case "dt":
-                    htmlElements.sections[0].appendChild(item.element);
-                    break;
-                case "dme":
-                    htmlElements.sections[1].appendChild(item.element);
-                    break;
-                case "cin":
-                    htmlElements.sections[2].appendChild(item.element);
-                    break;
-                case "heb":
-                    htmlElements.sections[3].appendChild(item.element);
-            }
+            document.querySelector(item.series).appendChild(item.element);
         });
         this.currentTrack.play(true);
     };
     static updatePlay(e) {
-        this.currentTrack.position = e.currentTime;
+        const currentPosition = e.currentTime;
+        const positionPercent = currentPosition / (e.duration / 100);
+        this.currentTrack.position = currentPosition;
+        htmlElements.playPause.style.setProperty('--audio-position', (positionPercent).toFixed(1) + '%');
     };
     static next(completed) {
         if (completed) { this.currentTrack.completed = true; this.currentTrack.position = 0; this.currentTrack.element.classList.add('completed') }

@@ -97,6 +97,18 @@ h4 {
     transition: all .3s;
 }
 
+/* .minimize::after {
+    content: "Tip! click here ^ to minimize a series";
+    width: 115px;
+    position: absolute;
+    right: 0;
+    top: 7px;
+    padding: 3px 3px 5px 5px;
+    background: #697db8;
+    color: #fff;
+    border-radius: 10px 0 10px 10px;
+} */
+
 input.mini:checked+section .minimize:before {
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
@@ -353,6 +365,18 @@ input#open:checked+#player label#open-close-player:before {
     content: "\2771";
 }
 
+input#open:not(checked)+#player #toggle-driving-mode {
+    display: none;
+}
+
+#toggle-driving-mode {
+    display: none;
+}
+
+#player #play-pause {
+    display: none;
+}
+
 #player .audio-wrapper {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -432,6 +456,16 @@ button#forward:before {
     left: calc(50% - 5px);
 }
 
+.playback-speed-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 50px;
+    height: 100%;
+    flex-grow: 1;
+    display: none;
+}
+
 #player .audio-wrapper #speed-wrapper {
     margin: 0 10px;
 }
@@ -506,6 +540,126 @@ button#forward:before {
     }
     header h1 {
         font-size: 22px
+    }
+}
+
+@media screen and (max-width: 450px) {
+    input#open:checked+#player #toggle-driving-mode {
+        display: block;
+        z-index: 1;
+    }
+    #toggle-driving-mode {
+        display: block;
+        position: fixed;
+        color: #fff;
+        background: none;
+        border: none;
+        right: 10px;
+        bottom: 90vh;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        font-size: 25px;
+    }
+    #toggle-driving-mode::before {
+        font-family: "Font Awesome 5 Free";
+        content: "\f1b9";
+    }
+    #player.driving-mode {
+        height: 100%;
+    }
+    #player.driving-mode h3 {
+        position: absolute;
+        width: 100%;
+    }
+    #player.driving-mode #toggle-driving-mode::before {
+        content: "\1F5D9";
+        font-size: 40px;
+    }
+    #player.driving-mode #play-pause {
+        position: relative;
+        display: block;
+        height: 40%;
+        width: 100%;
+        font-size: 100px;
+        color: #fff;
+        border: none;
+        background: none;
+        border-bottom: solid 2px;
+        --audio-position: 0%;
+    }
+    #player.driving-mode #play-pause::after {
+        content: "";
+        height: 5px;
+        background: #56e8ff;
+        position: absolute;
+        bottom: 1px;
+        left: 0;
+        width: var(--audio-position);
+    }
+    #player.driving-mode .audio-wrapper {
+        display: grid;
+        height: 60%;
+        grid-template-areas: "rewind forward" "speed speed" "prev next";
+        grid-template-rows: 25vh 15vh 20vh;
+        grid-template-columns: 50% 50%;
+        grid-gap: 0;
+        gap: 0;
+        place-items: center;
+    }
+    #player.driving-mode .audio-wrapper audio {
+        display: none;
+    }
+    #player.driving-mode .audio-wrapper #back, #player.driving-mode .audio-wrapper #forward {
+        height: 75%;
+        width: 75%;
+        border: solid 5px;
+        font-size: 50px;
+    }
+    #player.driving-mode .audio-wrapper #back {
+        grid-area: rewind;
+    }
+    #player.driving-mode .audio-wrapper #forward {
+        grid-area: forward;
+    }
+    #player.driving-mode .audio-wrapper button.skip:before {
+        font-size: 110px;
+        line-height: 40px;
+        top: -25px;
+        height: 54px;
+        width: 59px;
+        overflow: hidden;
+    }
+    #player.driving-mode .audio-wrapper button#back:before {
+        left: 7px;
+    }
+    #player.driving-mode .audio-wrapper button#forward:before {
+        left: 66px;
+    }
+    #player.driving-mode .audio-wrapper .playback-speed-btn {
+        display: inline-block;
+    }
+    #player.driving-mode .audio-wrapper #speed-wrapper {
+        grid-area: speed;
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        border: solid 2px;
+        padding: 20px 0;
+        margin: 0;
+    }
+    #player.driving-mode .audio-wrapper #prev {
+        grid-area: prev;
+    }
+    #player.driving-mode .audio-wrapper #next {
+        grid-area: next;
+    }
+    #player.driving-mode .audio-wrapper .skip-track {
+        font-size: 100px;
+        width: 100%;
+        height: 100%;
+    }
+    #player.driving-mode .audio-wrapper #player-yt, #player.driving-mode .audio-wrapper #player-dl {
+        display: none;
     }
 }
 

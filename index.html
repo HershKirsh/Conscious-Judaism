@@ -5,30 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="apple-touch-icon" href="/assets/logo.png">
+    <meta name="theme-color" content="#8a2be2"/>
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="assets/logo.png" type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css" />
     <link id="page-styles" rel="stylesheet" href="css/home.css" />
-    <title>Conscious Judaism</title>
+    <title>Conscious Judaism - Living Spiritual Judaism</title>
 </head>
 
 <body>
     <header>
-        <a id="logo" href="javascript:pageSettingElements.setPage('home')" title="Go to Home page"><img src="assets/logo.png"
+        <a id="logo" href="/" onclick="pageSettingElements.setPage(event, 'home')" title="Go to Home page"><img src="assets/logo.png"
                 alt="logo"></a>
         <h1>Conscious Judaism</h1>
     </header>
     <nav>
         <ul id="main-menu" class="all-pages">
             <i id="menu-btn" class="fas fa-bars" tabindex="0"></i>
-            <li id="home"><a href="javascript:pageSettingElements.setPage('home')"><i class="fas fa-home">Home</i></a></li>
+            <li id="home"><a href="/" onclick="pageSettingElements.setPage(event, 'home')"><i class="fas fa-home">Home</i></a></li>
             <li id="about"><a href="#about-section"><i class="fas fa-info-circle">About</i></a></li>
-            <li id="audio"><a href="javascript:pageSettingElements.setPage('audio')"><i class="fas fa-microphone">Audio</i></a></li>
-            <li id="video"><a href="javascript:pageSettingElements.setPage('inspiration')"><i class="fas fa-comments">Inspiration</i></a>
+            <li id="audio"><a href="/audio" onclick="pageSettingElements.setPage(event, 'audio')"><i class="fas fa-microphone">Audio</i></a></li>
+            <li id="video"><a href="/inspiration"  onclick="pageSettingElements.setPage(event, 'inspiration')"><i class="fas fa-comments">Inspiration</i></a>
             </li>
-            <li id="connect"><a href="javascript:pageSettingElements.setPage('connect')"><i
+            <li id="connect"><a href="/connect"  onclick="pageSettingElements.setPage(event, 'connect')"><i
                         class="fas fa-envelope-open-text">Connect</i></a></li>
         </ul>
     </nav>
@@ -39,14 +41,14 @@
     <div id="social-media">
         <h5>Follow Conscious Judaism</h5>
         <ul>
-            <li><a href="https://www.youtube.com/channel/UCzvwVzjz1E_q2vZljRUkfTg" id="yt-link" target="blank">
+            <li><a href="https://www.youtube.com/channel/UCzvwVzjz1E_q2vZljRUkfTg" id="youtube-link" target="blank">
                     <i class="fab fa-youtube"></i></a></li>
-            <li><a href="https://www.instagram.com/theconsciousjudaism/" id="ig-link" target="blank">
+            <li><a href="https://www.instagram.com/theconsciousjudaism/" id="instagram-link" target="blank">
                     <i class="fab fa-instagram"></i></a></li>
         </ul>
     </div>
     <footer>
-        <span>website design & creation by <a href="https://yitzchokkirsh.com" target="blank">HK Web</a></span>
+        <span>website design & creation by <a href="https://hershykirsh.com" target="blank">HK Web</a></span>
     </footer>
     <script src="js/model.js"></script>
     <script src="js/view.js"></script>
