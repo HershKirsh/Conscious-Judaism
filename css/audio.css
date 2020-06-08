@@ -555,7 +555,7 @@ button#forward:before {
         background: none;
         border: none;
         right: 10px;
-        bottom: 90vh;
+        bottom: 85vh;
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
         font-size: 25px;
@@ -572,7 +572,7 @@ button#forward:before {
         width: 100%;
     }
     #player.driving-mode #toggle-driving-mode::before {
-        content: "\1F5D9";
+        content: "\00D7";
         font-size: 40px;
     }
     #player.driving-mode #play-pause {
