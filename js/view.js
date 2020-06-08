@@ -326,7 +326,7 @@ class Track {
     };
     static renderList() {
         this.instanceArray.forEach(item => {
-            document.querySelector(item.series).appendChild(item.element);
+            document.querySelector('#' + item.series).appendChild(item.element);
         });
         this.currentTrack.play(true);
     };
