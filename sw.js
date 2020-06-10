@@ -22,6 +22,7 @@ const PRECACHE_URLS = [
   'assets/puzzle.jpg',
   'assets/under_const.jpg',
   'assets/yakov.jpg',
+  'https://consciousj.s3.us-east-2.amazonaws.com/audio/Introduction to Conscious Judaism.mp3'
 ];
 
 self.addEventListener('install', event => {
