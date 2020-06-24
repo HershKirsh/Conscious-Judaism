@@ -64,11 +64,6 @@ h4 {
     position: absolute;
     right: 30px;
     top: 25px;
-    background: #ffffff;
-    width: 20px;
-    height: 6px;
-    border: none;
-    border-radius: 10px;
     opacity: 0.7;
 }
 
@@ -76,19 +71,36 @@ h4 {
     outline: none;
 }
 
-.minimize:before {
+.minimize::before {
     content: '';
     position: absolute;
-    left: 7px;
-    top: -7px;
+    left: -13px;
     background: #ffffff;
     width: 6px;
     height: 20px;
     border: none;
     border-radius: 10px;
-    -webkit-transform: scale(0);
-    -ms-transform: scale(0);
-    transform: scale(0);
+    -webkit-transform: rotate(-60deg);
+    -ms-transform: rotate(-60deg);
+    transform: rotate(-60deg);
+    -webkit-transform-origin: center;
+    -ms-transform-origin: center;
+    transform-origin: center;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+.minimize::after {
+    content: '';
+    position: absolute;
+    background: #ffffff;
+    width: 6px;
+    height: 20px;
+    border: none;
+    border-radius: 10px;
+    -webkit-transform: rotate(60deg);
+    -ms-transform: rotate(60deg);
+    transform: rotate(60deg);
     -webkit-transform-origin: center;
     -ms-transform-origin: center;
     transform-origin: center;
@@ -109,13 +121,15 @@ h4 {
     border-radius: 10px 0 10px 10px;
 } */
 
-input.mini:checked+section .minimize:before {
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1);
-    -webkit-transition: all .3s;
-    -o-transition: all .3s;
-    transition: all .3s;
+input.mini:checked+section .minimize::before {
+    -webkit-transform: rotate(60deg);
+    -ms-transform: rotate(60deg);
+    transform: rotate(60deg);
+}
+input.mini:checked+section .minimize::after {
+    -webkit-transform: rotate(-60deg);
+    -ms-transform: rotate(-60deg);
+    transform: rotate(-60deg);
 }
 
 .minimize:hover, .btn:hover {

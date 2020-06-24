@@ -182,10 +182,11 @@ const trackList = new HtmlElement({
             if (savedData.length > 0) savedData.forEach(track => {
                 // const updatedTrack = { ...this.data[track.number], ...track };
                 // this.data.splice(track.number, 1, updatedTrack);
-                if (track.listened) this.data[track.number].listened = true;
-                if (track.completed) this.data[track.number].completed = true;
-                if (track.position > 0) this.data[track.number].position = track.position;
-                if (track.nowPlaying) this.data[track.number].nowPlaying = true;
+                const indexOfSaved = this.data.findIndex(item => item.series === track.series && item.number === track.number)
+                if (track.listened) this.data[indexOfSaved].listened = true;
+                if (track.completed) this.data[indexOfSaved].completed = true;
+                if (track.position > 0) this.data[indexOfSaved].position = track.position;
+                if (track.nowPlaying) this.data[indexOfSaved].nowPlaying = true;
             });
         }
         this.data.forEach((item, i) => {
