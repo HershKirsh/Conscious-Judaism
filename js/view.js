@@ -368,6 +368,125 @@ Track.instanceArray = [];
 Track.currentTrack = null;
 Track.speed = 1;
 
+const meditationsList = new HtmlElement({
+    tag: 'div',
+    class: 'list-item',
+    getString: function (item) {
+        const innerString = `<div class="thumbnail-wrapper">
+            <img src="${item.thumbnail}" alt="${item.title}-thumbnail" onclick="">
+            <div class="btns-wrapper">
+                <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
+                    title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
+                <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/meditations/${item.title}.mp3" title="Download" download>&#8681;</a>
+            </div>
+        </div>
+        <h3 title="Uploaded: ${new Date(item.date).toLocaleString(undefined, { year: "numeric", month: "long", day: "numeric" })}">${item.number + 1}. ${item.title}</h3>`;
+        return innerString;
+    },
+    insertTo: htmlElements.container,
+    attributes: [{ name: "tabindex", value: 0 }],
+    selectors: function () {
+        htmlElements.trackList = document.querySelectorAll('.list-item');
+        htmlElements.trackListPlay = document.querySelectorAll('.list-item .play');
+        if (storedAudioData.data.trackData.length > 0) {
+            const savedData = storedAudioData.data.trackData;
+            if (savedData.length > 0) savedData.forEach(track => {
+                // const updatedTrack = { ...this.data[track.number], ...track };
+                // this.data.splice(track.number, 1, updatedTrack);
+                const indexOfSaved = this.data.findIndex(item => item.series === track.series && item.number === track.number)
+                if (track.listened) this.data[indexOfSaved].listened = true;
+                if (track.completed) this.data[indexOfSaved].completed = true;
+                if (track.position > 0) this.data[indexOfSaved].position = track.position;
+                if (track.nowPlaying) this.data[indexOfSaved].nowPlaying = true;
+            });
+        }
+        // this.data.forEach((item, i) => {
+        //     track = new Track(item, i);
+        //     if (track.started) track.element.classList.add('started');
+        //     if (track.completed) track.element.classList.add('completed');
+        //     track.addInstance();
+        //     htmlElements.trackListPlay[i].addEventListener('click', () => Track.instanceArray[i].play());
+        // })
+    }
+});
+
+const videoPlayerElement = new HtmlElement({
+    tag: 'div',
+    id: 'player',
+    getString: function () {
+        const innerString = `<label for="open-video" id="open-video-player"></label>
+            <h3></h3>
+            <button id="play-pause" onclick="videoPlayer.togglePlay(this)">&#9654</button>
+            <div class="video-wrapper">
+                <button class="skip-track" id="prev" onclick="Track.prev()" title="play previous track">&#171;</button>
+                <button class="skip" id="back" onclick="videoPlayer.skipBack()" title="rewind 30 seconds">30</button>
+                <div id="youtube-player-wrapper"><div id="youtube-player"></div></div>
+                <button class="skip" id="forward"  onclick="videoPlayer.skipForward()" title="forward 30 seconds">30</button>
+                <button class="skip-track" id="next" onclick="Track.next()" title="play next track">&#187;</button>
+                <a id="player-yt" class="btn yt" href="" onclick="Track.goToYt(this)"
+                    title="Continue this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
+                <a id="player-dl" class="btn" href="" title="Download" download>&#8681;</a>
+            </div>`;
+        return innerString;
+    },
+    insertTo: htmlElements.container,
+    attributes: [{ name: "tabindex", value: 1 }],
+    selectors: function () {
+        htmlElements.playPause = document.getElementById('play-pause');
+        htmlElements.playerYtLink = document.getElementById('player-yt');
+        htmlElements.player = document.getElementById('player');
+        htmlElements.playerDlLink = document.getElementById('player-dl');
+        htmlElements.playerTitle = document.querySelector('#player>h3');
+        htmlElements.youtubePlayer = document.querySelector('#youtube-player');
+        htmlElements.speedRange = document.querySelector('#speed-range');
+        htmlElements.output = document.querySelector('output');
+        const newElement = document.createElement('input');
+        newElement.classList.add('invisible');
+        newElement.id = 'open-video';
+        newElement.type = 'checkbox';
+        htmlElements.player.insertAdjacentElement('beforeBegin', newElement);
+        htmlElements.openVideo = newElement;
+    }
+});
+
+function initYoutubePlyer() {
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+};
+
+const youtubeElements = {
+    player: {},
+    videoId: 'Ecwz2SN-qK0',
+    done: false,
+    onPlayerReady: function(event) {
+        console.log(event);
+        event.target.playVideo();
+    },
+    onPlayerStateChange: function(event) {
+        if (event.data == YT.PlayerState.PLAYING && !this.done) {
+            console.log(event);
+            console.log(event.data);
+        }
+    },
+    stopVideo: function() {
+        player.stopVideo();
+    }
+};
+
+function onYouTubeIframeAPIReady() {
+    youtubeElements.player = new YT.Player(htmlElements.youtubePlayer, {
+        height: '360',
+        width: '640',
+        videoId: youtubeElements.videoId,
+        events: {
+            'onReady': youtubeElements.onPlayerReady,
+            'onStateChange': youtubeElements.onPlayerStateChange
+        }
+    });
+};
+
 const underConstPage = new HtmlElement({
     tag: 'section',
     getString: function () {

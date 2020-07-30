@@ -68,6 +68,26 @@ const audioPage = new Page({
     }
 });
 
+const meditationsPage = new Page({
+    name: 'meditations',
+    title: 'Conscious Judaism - Meditations, increase awerness of your true essence',
+    render: async function () {
+        await videoPlayerElement.createElement();
+        if (meditationsList.data) {
+            await meditationContainer.createElement();
+            MeditationTracks.renderList();
+        } else {
+            let meditationDataUrl = "https://conscious-j.herokuapp.com/meditations/";
+            const meditationData = await getData(meditationDataUrl, "GET");
+            //await meditationContainer.createElement();
+            // await storedMeditationData.getData();
+            await meditationsList.createElement(meditationData.sort((a, b) => a.number > b.number))
+            // storedMeditationData.setNowPlaying();
+        }
+        initYoutubePlyer()
+    }
+});
+
 const inspirationPage = new Page({
     name: 'inspiration',
     title: 'Conscious Judaism - Inspirational quotes to enhance your experience of life',
