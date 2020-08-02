@@ -227,7 +227,7 @@ li#meditations a i:before{
     background-position: center;
 }
 
-li#connect {
+li#connect, li#meditations {
     display: none !important;
 }
 
