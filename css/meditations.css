@@ -152,11 +152,13 @@ input#open-video:not(checked)+#player #toggle-driving-mode {
 
 div#youtube-player-wrapper {
     width: 100%;
+    z-index: 1;
 }
 
 iframe#youtube-player {
     margin: auto;
     max-width: 100%;
+    max-height: calc(100vh - 110px);
 }
 
 button.skip {
@@ -226,6 +228,11 @@ button#forward:before {
 
 .btn.yt {
     padding: 5px 0;
+}
+
+#player-dl,
+#player-yt {
+    display: none;
 }
 
 /* header h1 {
