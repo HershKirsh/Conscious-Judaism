@@ -74,17 +74,15 @@ const meditationsPage = new Page({
     render: async function () {
         await videoPlayerElement.createElement();
         if (meditationsList.data) {
-            await meditationContainer.createElement();
-            MeditationTracks.renderList();
+            meditationsList.createElement();
         } else {
             let meditationDataUrl = "https://conscious-j.herokuapp.com/meditations/";
             const meditationData = await getData(meditationDataUrl, "GET");
-            //await meditationContainer.createElement();
             // await storedMeditationData.getData();
-            await meditationsList.createElement(meditationData.sort((a, b) => a.number > b.number))
+            await meditationsList.createElement(meditationData.sort((a, b) => a.number - b.number))
             // storedMeditationData.setNowPlaying();
         }
-        initYoutubePlyer()
+        youtubeElements.initYoutubePlyer()
     }
 });
 

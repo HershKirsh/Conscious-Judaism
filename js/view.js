@@ -166,7 +166,7 @@ const trackList = new HtmlElement({
             <div class="btns-wrapper">
                 <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
-                <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title}.mp3" title="Download" download>&#8681;</a>
+                <a class="btn" href="https://consciousj.s3.us-east-2.amazonaws.com/audio/${item.title.replace(/"/g, '&quot;')}.mp3" title="Download" download>&#8681;</a>
             </div>`;
         return innerString;
     },
@@ -373,7 +373,7 @@ const meditationsList = new HtmlElement({
     class: 'list-item',
     getString: function (item) {
         const innerString = `<div class="thumbnail-wrapper">
-            <img src="${item.thumbnail}" alt="${item.title}-thumbnail" onclick="">
+            <img src="${item.thumbnail}" alt="${item.title}-thumbnail" onclick="youtubeElements.playVideo(${item.number})">
             <div class="btns-wrapper">
                 <a class="btn yt" href="https://www.youtube.com/watch?v=${item.ytId}"
                     title="Watch this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
@@ -384,22 +384,21 @@ const meditationsList = new HtmlElement({
         return innerString;
     },
     insertTo: htmlElements.container,
-    attributes: [{ name: "tabindex", value: 0 }],
     selectors: function () {
         htmlElements.trackList = document.querySelectorAll('.list-item');
         htmlElements.trackListPlay = document.querySelectorAll('.list-item .play');
-        if (storedAudioData.data.trackData.length > 0) {
-            const savedData = storedAudioData.data.trackData;
-            if (savedData.length > 0) savedData.forEach(track => {
-                // const updatedTrack = { ...this.data[track.number], ...track };
-                // this.data.splice(track.number, 1, updatedTrack);
-                const indexOfSaved = this.data.findIndex(item => item.series === track.series && item.number === track.number)
-                if (track.listened) this.data[indexOfSaved].listened = true;
-                if (track.completed) this.data[indexOfSaved].completed = true;
-                if (track.position > 0) this.data[indexOfSaved].position = track.position;
-                if (track.nowPlaying) this.data[indexOfSaved].nowPlaying = true;
-            });
-        }
+        // if (storedAudioData.data.trackData.length > 0) {
+        //     const savedData = storedAudioData.data.trackData;
+        //     if (savedData.length > 0) savedData.forEach(track => {
+        //         // const updatedTrack = { ...this.data[track.number], ...track };
+        //         // this.data.splice(track.number, 1, updatedTrack);
+        //         const indexOfSaved = this.data.findIndex(item => item.series === track.series && item.number === track.number)
+        //         if (track.listened) this.data[indexOfSaved].listened = true;
+        //         if (track.completed) this.data[indexOfSaved].completed = true;
+        //         if (track.position > 0) this.data[indexOfSaved].position = track.position;
+        //         if (track.nowPlaying) this.data[indexOfSaved].nowPlaying = true;
+        //     });
+        // }
         // this.data.forEach((item, i) => {
         //     track = new Track(item, i);
         //     if (track.started) track.element.classList.add('started');
@@ -416,14 +415,14 @@ const videoPlayerElement = new HtmlElement({
     getString: function () {
         const innerString = `<label for="open-video" id="open-video-player"></label>
             <h3></h3>
-            <button id="play-pause" onclick="videoPlayer.togglePlay(this)">&#9654</button>
             <div class="video-wrapper">
-                <button class="skip-track" id="prev" onclick="Track.prev()" title="play previous track">&#171;</button>
-                <button class="skip" id="back" onclick="videoPlayer.skipBack()" title="rewind 30 seconds">30</button>
+                <img src="" alt="">
                 <div id="youtube-player-wrapper"><div id="youtube-player"></div></div>
-                <button class="skip" id="forward"  onclick="videoPlayer.skipForward()" title="forward 30 seconds">30</button>
-                <button class="skip-track" id="next" onclick="Track.next()" title="play next track">&#187;</button>
-                <a id="player-yt" class="btn yt" href="" onclick="Track.goToYt(this)"
+                <button class="skip-track" id="prev" onclick="youtubeElements.prev()" title="play previous track">&#171;</button>
+                <button class="skip" id="back" onclick="youtubeElements.skipBack()" title="rewind 30 seconds">30</button>
+                <button class="skip" id="forward"  onclick="youtubeElements.skipForward()" title="forward 30 seconds">30</button>
+                <button class="skip-track" id="next" onclick="youtubeElements.next()" title="play next track">&#187;</button>
+                <a id="player-yt" class="btn yt" href="" onclick="youtubeElements.goToYt(this)"
                     title="Continue this recordind on YouTube" target="blank"><i class="fab fa-youtube"></i></a>
                 <a id="player-dl" class="btn" href="" title="Download" download>&#8681;</a>
             </div>`;
@@ -449,42 +448,62 @@ const videoPlayerElement = new HtmlElement({
     }
 });
 
-function initYoutubePlyer() {
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-};
+
 
 const youtubeElements = {
     player: {},
-    videoId: 'Ecwz2SN-qK0',
+    currentVideo: {},
     done: false,
-    onPlayerReady: function(event) {
-        console.log(event);
-        event.target.playVideo();
+    initYoutubePlyer: function () {
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     },
-    onPlayerStateChange: function(event) {
-        if (event.data == YT.PlayerState.PLAYING && !this.done) {
-            console.log(event);
-            console.log(event.data);
-        }
+    onYtAPIReady: function () {
+        this.player = new YT.Player(htmlElements.youtubePlayer, {
+            height: '360',
+            width: '640',
+            videoId: meditationsList.data[0].ytId,
+            events: {
+                'onReady': this.onPlayerReady,
+                'onStateChange': this.onPlayerStateChange
+            }
+        });
     },
-    stopVideo: function() {
-        player.stopVideo();
+    onPlayerReady: function () {
+        this.player.addEventListener('onStateChange', function (e) {
+        });
+    },
+    // onPlayerStateChange: function (event) {
+    //         console.log(event.data);
+    // },
+    playVideo: function (index) {
+        this.stopVideo()
+        this.currentVideo = meditationsList.data[index];
+        this.player.loadVideoById(this.currentVideo.ytId)
+        this.player.playVideo(this.currentVideo.ytId)
+        htmlElements.openVideo.checked = true;
+    },
+    stopVideo: function () {
+        this.player.stopVideo();
+    },
+    skipForward: function () {
+        this.player.seekTo(this.player.getCurrentTime() + 30)
+    },
+    skipBack: function () {
+        this.player.seekTo(this.player.getCurrentTime() - 30)
+    },
+    next: function () {
+        this.playVideo(this.currentVideo.number + 1)
+    },
+    prev: function () {
+        this.playVideo(this.currentVideo.number - 1)
     }
 };
 
 function onYouTubeIframeAPIReady() {
-    youtubeElements.player = new YT.Player(htmlElements.youtubePlayer, {
-        height: '360',
-        width: '640',
-        videoId: youtubeElements.videoId,
-        events: {
-            'onReady': youtubeElements.onPlayerReady,
-            'onStateChange': youtubeElements.onPlayerStateChange
-        }
-    });
+    return youtubeElements.onYtAPIReady();
 };
 
 const underConstPage = new HtmlElement({
@@ -526,8 +545,7 @@ const mutationObserverElements = {
             if (mutation.type === "childList" && mutation.removedNodes.length > 0) {
                 mutation.removedNodes.forEach(element => {
                     if (element.nodeType === 1) {
-                        const aud = element.querySelector('audio')
-                        if (aud) {
+                        if (element.querySelector('audio')) {
                             Track.saveData();
                         }
                     }
